@@ -21,7 +21,7 @@ body{
     background:radial-gradient(ellipse at center, #1b41a9 0%, #17378e 100%);
     font-weight:400;
     background-attachment:fixed;    
-    background-image: url(../img/bg.jpg)!important;
+    background-image: url(../img/bg3.jpg)!important;
     background-size: cover!important;
     background-position: center!important;
 }
@@ -43,9 +43,9 @@ a{
     border-color:#fff !important
 }
 .custom-file-control,.custom-select,.form-control{
-    border:1px solid #153281;
+    border:1px solid #c2d6da;
     background-color:transparent;
-    color:#fff
+    color:#1e90ff
 }
 .custom-file-control :focus,.custom-select :focus,.form-control :focus{
     color:#666666
@@ -209,7 +209,7 @@ a{
     white-space:nowrap
 }
 hr{
-    border-top:1px solid #153281
+    border-top:1px solid 1px solid #6df2f9
 }
 .clearfix{
     clear:both
@@ -478,7 +478,7 @@ select.form-control{
 }
 body>.sidebar-right,body>.sidebar-left,body>.container>.sidebar-right,body>.container>.sidebar-left{
     padding-top:60px;
-    background:#1d45b1;
+    background: #d7faff;
     position:fixed;
     overflow-y:auto
 }
@@ -490,7 +490,7 @@ body>.sidebar-right .media p,body>.sidebar-right .media .description,body>.sideb
     color:#fcfdff
 }
 body>.sidebar-right .media h1,body>.sidebar-right .media h2,body>.sidebar-right .media h3,body>.sidebar-right .media h4,body>.sidebar-right .media h5,body>.sidebar-right .media h6,body>.sidebar-left .media h1,body>.sidebar-left .media h2,body>.sidebar-left .media h3,body>.sidebar-left .media h4,body>.sidebar-left .media h5,body>.sidebar-left .media h6,body>.container>.sidebar-right .media h1,body>.container>.sidebar-right .media h2,body>.container>.sidebar-right .media h3,body>.container>.sidebar-right .media h4,body>.container>.sidebar-right .media h5,body>.container>.sidebar-right .media h6,body>.container>.sidebar-left .media h1,body>.container>.sidebar-left .media h2,body>.container>.sidebar-left .media h3,body>.container>.sidebar-left .media h4,body>.container>.sidebar-left .media h5,body>.container>.sidebar-left .media h6{
-    color:#fff
+    color:#48a6ff
 }
 body>.sidebar-right hr,body>.sidebar-left hr,body>.container>.sidebar-right hr,body>.container>.sidebar-left hr{
     border-color:rgba(21,50,129,0.4)
@@ -518,7 +518,7 @@ body>.sidebar-left,body>.container>.sidebar-left{
     box-shadow:2px 0px 5px 0px rgba(0,0,0,0.1) 
 }
 body>.sidebar-left .nav-link,body>.container>.sidebar-left .nav-link{
-    color:#fff;
+    color:#48a6ff;
     padding:0.5em 1.8em;
     position:relative
 }
@@ -550,7 +550,7 @@ body>.sidebar-left .nav-link i.left-icon.square,body>.container>.sidebar-left .n
     border:1px solid rgba(255,255,255,0.1)
 }
 body>.sidebar-left .nav li .nav li .nav-link,body>.container>.sidebar-left .nav li .nav li .nav-link{
-    color:#fcfdff;
+    color:#48a6ff;
     padding-left:3em
 }
 body>.sidebar-left .nav li .nav li .nav li .nav-link,body>.container>.sidebar-left .nav li .nav li .nav li .nav-link{
@@ -584,7 +584,7 @@ body>.sidebar-left .nav-third-level li a,body>.container>.sidebar-left .nav-thir
 body>.sidebar-left .title-nav,body>.container>.sidebar-left .title-nav{
     font-size:16px;
     line-height:40px;
-    color:#fff;
+    color:#48a6ff;
     padding:0.5em 1.90em;
     text-transform:uppercase
 }
@@ -598,7 +598,7 @@ body>.sidebar-left .menudropdown i,body>.container>.sidebar-left .menudropdown i
     line-height:28px
 }
 body>.sidebar-left .menudropdown.show,body>.container>.sidebar-left .menudropdown.show{
-    color:#fff
+    color:#48a6ff
 }
 body>.sidebar-left .menudropdown.show .menudropdown.show,body>.container>.sidebar-left .menudropdown.show .menudropdown.show{
     color:#fff
@@ -613,7 +613,7 @@ body>.sidebar-left h1,body>.sidebar-left h2,body>.sidebar-left h3,body>.sidebar-
     color:#fff
 }
 .meeting-subject{
-    color:#fff;
+    color:#48a6ff;
     line-height:22px;
     display:inline-block;
     margin:10px 0
@@ -687,20 +687,19 @@ body>.sidebar-right .progressprofile p,body>.container>.sidebar-right .progressp
     text-transform:uppercase
 }
 body>.sidebar-right .progressprofile figure,body>.container>.sidebar-right .progressprofile figure{
-    width:50px;
+    width:60%;
     margin:15px auto;
-    height:50px;
     overflow:hidden;
     -webkit-border-radius:50px;
     -moz-border-radius:50px;
     -ms-border-radius:50px;
-    border-radius:50px
+    border-radius:50%
 }
 body>.sidebar-right .progressprofile figure img,body>.container>.sidebar-right .progressprofile figure img{
     width:100%
 }
 body>.sidebar-right .progressprofile .user-details,body>.container>.sidebar-right .progressprofile .user-details{
-    position:absolute;
+    position:relative;
     width:100%;
     top:10px;
     left:0;
@@ -717,7 +716,7 @@ body>.sidebar-right .progressprofile .progress_profile,body>.container>.sidebar-
 body>.sidebar-right .title-nav,body>.container>.sidebar-right .title-nav{
     font-size:16px;
     line-height:40px;
-    color:#fff;
+    color:#48a6ff;
     padding:0.5em 1.0em;
     text-transform:uppercase
 }
@@ -1010,12 +1009,12 @@ body.menuclose-right .wrapper-content{
     float:left;
     display:block;
     margin:10px 0;
-    color:#bbcaf4;
+    color:#FFFFFF;
     text-decoration:none;
     padding:13px;
     position:relative;
     text-align:center;
-    background:#1f4abf
+    background:#4cbfff
 }
 .member-list .media:nth-child(3n){
     margin-right:0
@@ -1118,12 +1117,13 @@ body.menuclose-right .wrapper-content{
 .member-list .media:hover .description,.member-list .media:hover h6,.member-list .media:hover p{
     color:#fff
 }
+
 .member-list .media:hover .overlay{
     opacity:1;
     display:block
 }
 .member-list .media .background{
-    opacity:0.3
+    opacity:1
 }
 .member-list .media .followers{
     border-top:1px solid #153281;
@@ -1174,7 +1174,7 @@ body.menuclose-right .wrapper-content{
     padding:0px;
     position:relative;
     text-align:center;
-    background:#1f4abf
+    background:rgb(32, 149, 212)f;
 }
 .project-list .media:nth-child(2n){
     margin-right:0
@@ -1661,7 +1661,8 @@ header.navbar-fixed{
     position:fixed;
     top:0;
     left:0;
-    width:100%
+    width:100%;
+    background: #f0fdff;
 }
 .message-container{
     width:300px;
@@ -1733,7 +1734,7 @@ header.navbar-fixed{
     top:3px
 }
 .userpic img{
-    height:auto;
+    height:100%;
     width:100%;
     border:0;
     vertical-align:top
@@ -1760,7 +1761,7 @@ header.navbar-fixed{
 .navbar-brand.imglogo{
     height:42px;
     width:166px;
-    background:url("../img/logofit.png") no-repeat center left;
+    background:url("../img/logorec.png") no-repeat center left;
     background-size:auto 40px;
     margin-bottom:-5px;
     margin-top:-4px
@@ -2003,7 +2004,7 @@ header.navbar-fixed{
     font-size:24px
 }
 .activity-block{
-    background:#204cc3;
+    background:#cbf5ff;
     width:100%;
     display:block;
     float:left;
@@ -2017,7 +2018,6 @@ header.navbar-fixed{
 .activity-block p{
     color:#bbcaf4;
     margin-bottom:0;
-    text-transform:uppercase
 }
 .activity-block .progress-heading{
     font-size:13px;
@@ -2223,7 +2223,7 @@ header.navbar-fixed{
 }
 .card{
     margin:15px auto 15px auto;
-    background:#204cc3;
+    background:#cbf5ff;
     border:0 none
 }
 .card .card-img-top{
@@ -2280,8 +2280,8 @@ header.navbar-fixed{
     padding:5px 0
 }
 .card .card-footer{
-    background:#2251d0;
-    border-top:1px solid #153281
+    background:#d4f7ff;
+    border-top:1px solid #c3fff7
 }
 .modal.dark_bg .modal-dialog .modal-content{
     background:#2354d9;
@@ -2582,7 +2582,7 @@ header .navbar.sign-in-header{
     height:100%;
     overflow:hidden;
     margin:0;
-    background:#000
+    background:#4cbfff
 }
 .background img{
     opacity:0.6;
@@ -2666,7 +2666,7 @@ header .navbar.sign-in-header{
     background:transparent
 }
 .form-signin1.full_side .form-control{
-    background:transparent;
+    background:rgba(72, 198, 247, 0.2);
     color:#ffffff;
     border:1px solid #153281
 }
@@ -2950,7 +2950,7 @@ dl.full-width dt{
     vertical-align:middle
 }
 .tab-content{
-    background:#204cc3;
+    background:#cbf5ff;
     border:1px solid #153281;
     -webkit-border-radius:2px;
     -moz-border-radius:2px;
@@ -2966,7 +2966,7 @@ dl.full-width dt{
     background:#ffffff
 }
 .modal.dark .tab-content{
-    background:#204cc3
+    background:#cbf5ff
 }
 @media (min-width: 1020px){
     .col-lg-30{
@@ -3071,7 +3071,7 @@ dl.full-width dt{
     color:#fff
 }
 .serviceblock .block{
-    background:#1f4abf;
+    background:#4cbfff;
     padding:20px;
     position:relative;
     height:100%
@@ -3392,7 +3392,7 @@ table tr td img.gridpic{
     display:inline-block !important
 }
 .table .table{
-    background:#1f4abf
+    background:#4cbfff
 }
 .invoice{
     color:#222222;
@@ -4308,7 +4308,7 @@ body.horizontal-menu>.container>.sidebar-left .nav,body.horizontal-menu>.sidebar
         color:#222222
     }
     body.horizontal-menu>.container>.sidebar-left .nav .nav-second-level li a.nav-link:hover,body.horizontal-menu>.sidebar-left .nav .nav-second-level li a.nav-link:hover{
-        background:rgba(0,0,0,0.1);
+        background:transparent;
         color:#000000 !important
     }
     body.horizontal-menu>.container>.sidebar-left .nav .nav-second-level li a.nav-link.menudropdown,body.horizontal-menu>.sidebar-left .nav .nav-second-level li a.nav-link.menudropdown{
@@ -4819,7 +4819,7 @@ body.rtl-read .timeline .media:before{
     padding-bottom:60px
 }
 .chat_wrapper .chat_msgpost{
-    background:#1f4abf;
+    background:#4cbfff;
     border-top:#6789e6 1px solid;
     padding:15px;
     position:absolute;
@@ -5539,7 +5539,7 @@ body.rtl-read .timeline .media:before{
     overflow:hidden
 }
 .load2 .loader:before,.load2 .loader:after,.load3 .loader:after{
-    background:#204cc3
+    background:#cbf5ff
 }
 .sk-rotating-plane,.sk-double-bounce .sk-child,.sk-wave .sk-rect,.sk-wandering-cubes .sk-cube,.sk-spinner-pulse,.sk-chasing-dots .sk-child,.sk-three-bounce .sk-child,.sk-circle .sk-child:before{
     background:#fff
@@ -5562,7 +5562,7 @@ body.rtl-read .timeline .media:before{
     cursor:not-allowed
 }
 .loader_wrapper.inner .load-wrapper{
-    background:#1f4abf;
+    background:#4cbfff;
     height:310px;
     width:310px;
     -webkit-border-radius:155px;
@@ -6458,10 +6458,120 @@ ul.icons li i{
     display: unset!important;
 }
 .loginImg{
-    height: 70px;
-    margin: 16px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 120px;
 }
-#navBar, #mainPanel, #leftSidebar, #regPanel {
+.appPanel, .validatedCard, .underconsCard {
+    display: none;
+}
+#loginUserInput, #fpUserInput{
+    margin-top: 16px;
+}
+::-webkit-input-placeholder { /* Chrome */
+    color: white!important;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: white!important;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: white!important;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: white!important;
+    opacity: 1;
+  }
+  #notifBox{
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    z-index: 99999;
+    top: 0px;
+    position: fixed;
+  }
+  .btn-primary {
+    color: #fff;
+    background-color: #7adbe7;
+    border-color: #2643a3;
+}
+
+.wallCard {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    z-index: 99999;
+}
+
+.profileFormCard h5 {
+    color: #2196f3;
+}
+
+.profileFormCard .card {
+    background: #f4fdff;
+}
+
+.profileFormCard {
+    display: block;
+    padding: 32px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    z-index: 99999;
+    color: #2196f3;
+}
+
+#cardsPanel {
+    margin: 5%;
+}
+
+.dyeblue {
+    color: #1e90ff!important;
+}
+
+.file-input-new .close, .file-input-new .file-preview, 
+.file-input-new .fileinput-remove-button, .file-input-new .fileinput-upload-button, 
+.file-input-new .glyphicon-file{
     display: none;
 }
 
+.file-input .btn {
+    margin: 16px;
+}
+
+.file-preview-frame img {
+    border-radius: 15px;
+}
+
+.btn-file input[type=file]{
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: none repeat scroll 0 0 transparent;
+    cursor: inherit;
+    display: block;
+}
+.btn-secondary {
+    background-color: #a5d3fd;
+}
+
+label {
+    margin-top: 32px;
+}
+.hidethis, .userForms {
+    display: none;
+}
+.miinfo_about{
+    width: 90%;
+}
+.selfcard{
+    margin: 0px!important;
+}

@@ -208,7 +208,7 @@ $(document).on("ready", function () {
 
 
     /* Resposnsive Utility hide menu */
-    if ($(window).width() >= 1440 && body_1.hasClass("no-menu-show") != true) {
+    if ($(window).width() >= 1024 && body_1.hasClass("no-menu-show") != true) {
         if (body_1.hasClass("left-menu-only") === true) {
             body_1.removeClass('menuclose');
         } else if (body_1.hasClass("horizontal-menu") === true) {
@@ -232,7 +232,7 @@ $(document).on("ready", function () {
     $('.dropdown-toggle,[data-toggle="dropdown"],.userprofile').dropdown();
 
     $(window).on('resize', function () {
-        if ($(window).width() >= 1440 && body_1.hasClass("no-menu-show") != true) { body_1.removeClass('menuclose '); } else { body_1.addClass('menuclose menuclose-right'); }
+        if ($(window).width() >= 1024 && body_1.hasClass("no-menu-show") != true) { body_1.removeClass('menuclose '); } else { body_1.addClass('menuclose menuclose-right'); }
     });
 
 

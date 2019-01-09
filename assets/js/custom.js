@@ -7,7 +7,7 @@ $(window).on("load", function () {
 		$(".appPanel").velocity("transition.slideDownOut", 500);
 		$("#regPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
 	});
-	$(document).on("click", "#loginBtn, .loginBtn, #logutBtn", function () {
+	$(document).on("click", "#loginBtn, .loginBtn, #logutBtn, .logutBtn", function () {
 		$(".appPanel").velocity("transition.slideDownOut", 500);
 		$("#loginPanel input").val('');
 		$("#loginPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
@@ -21,11 +21,24 @@ $(window).on("load", function () {
 		$("#resendPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
 	});
 
+	///////////////////////////////////////////////////////////// ITERAMOS ENTRE LAS TARJETAS DEL MENU
+	$(document).on("click", ".showUnderCons", function () {
+		$(".mainCards").velocity("transition.slideDownOut", 500);
+		$(".underConsCard").delay(600).velocity("transition.slideUpBigIn", 1200);
+	});
+	$(document).on("click", ".showInicioCards", function () {
+		$(".mainCards").velocity("transition.slideDownOut", 500);
+		$(".inicioCard").delay(600).velocity("transition.slideUpIn", 500);
+		$('.flexslider').delay(700).flexslider({
+			animation: "slide",
+			controlNav: "thumbnails"
+		});
+	});
 
-
-	$(document).on('click', function(event){ 
-		if($(event.target).parents('.sidebar-right, .sidebar-left, .menu-collapse-right, .menu-collapse').length < 1){
-			if(!$(event.target).hasClass("sidebar-right") && !$(event.target).hasClass("sidebar-left") && !$(event.target).hasClass("menu-collapse") && !$(event.target).hasClass("menu-collapse-right")){
+	//////////////////////////////////////////////////////////////// CERRAR AUTOMATICAMENTE LAS BARRAS LATERALES
+	$(document).on('click', function (event) {
+		if ($(event.target).parents('.sidebar-right, .sidebar-left, .menu-collapse-right, .menu-collapse').length < 1) {
+			if (!$(event.target).hasClass("sidebar-right") && !$(event.target).hasClass("sidebar-left") && !$(event.target).hasClass("menu-collapse") && !$(event.target).hasClass("menu-collapse-right")) {
 				$('body').addClass('menuclose menuclose-right');
 			}
 		}
@@ -177,12 +190,7 @@ $(window).on("load", function () {
 		completeUser();
 	});
 
-	$('.progress_profile').circleProgress({
-		fill: { gradient: ["#2ec7cb", "#6c8bef"] },
-		lineCap: 'butt'
-	});
-	var myvalues2 = [10, 8, 5, 7, 4, 2, 8, 10, 8, 5, 6, 4, 1, 7, 4, 5, 8, 10, 8, 5, 6, 4, 4, 1, 7, 4, 5, 8, 10, 8, 5, 6, 4, 4];
-	$('.dynamicsparkline2').sparkline(myvalues2, { type: 'bar', width: '200px', height: '60', barColor: '#cccccc', barWidth: '3', barSpacing: 3 });
+	signOut();
 });
 
 ////////////////////////////////////////////////////////////// EVENTO AL INICIAR SESION
@@ -217,7 +225,7 @@ function authUser() {
 	formData.append('username', username);
 	formData.append('password', pass);
 	$.ajax({
-		url: "http://api.miinfo.co/api.php", type: 'POST', dataType: "json",
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
 		success: function (data) {
 			console.log('Ajax response success');
@@ -245,6 +253,11 @@ function authUser() {
 					mountUser(data.userIntel);
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
+					$(".inicioCard").delay(1200).velocity("transition.slideUpIn", 500);
+					$('.flexslider').delay(1800).flexslider({
+						animation: "slide",
+						controlNav: "thumbnails"
+					});
 				}
 			}
 			$("#submitBtn").html('Ingresar');
@@ -297,7 +310,7 @@ function regUser() {
 	formData.append('username', username);
 	formData.append('password', pass);
 	$.ajax({
-		url: "http://api.miinfo.co/api.php", type: 'POST', dataType: "json",
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
 		success: function (data) {
 			console.log('Ajax response success');
@@ -357,7 +370,7 @@ function fpEmail() {
 	formData.append('meth', 'fp');
 	formData.append('username', username);
 	$.ajax({
-		url: "http://api.miinfo.co/api.php", type: 'POST', dataType: "json",
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
 		success: function (data) {
 			console.log('Ajax response success');
@@ -539,6 +552,10 @@ function completeUser() {
 			notifyThem('danger', 'El archivo no es una imagen');
 			return false;
 		}
+	} else {
+		$("#avatarImgForm").velocity("callout.shake");
+		notifyThem('danger', 'Debe cargar una imagen de perfil');
+		return false;
 	}
 
 	// LOADING IMPORTANT
@@ -561,7 +578,7 @@ function completeUser() {
 	bioUsuario.length > 0 ? formData.append('bioUsuario', bioUsuario) : formData.append('bioUsuario', '');
 	$('#avatarCompInput')[0].files.length > 0 ? formData.append('avatarUsuario', $('#avatarCompInput')[0].files[0]) : formData.append('avatarUsuario', '');
 	$.ajax({
-		url: "http://api.miinfo.co/api.php", type: 'POST', dataType: "json",
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
 		success: function (data) {
 			console.log('Ajax response success');
@@ -570,9 +587,11 @@ function completeUser() {
 			if (data.scriptResp == 'UserComplete') {
 				notifyThem('success', 'Los datos de su cuenta han sido Completados', 'Inicie sesi&oacute;n nuevamente para acceder a su tablero');
 				setTimeout(function (e) {
-					$('#loginPanel input, #forgotPassPanel input,#regPanel input').val('');
 					$("#completeAccPanel").velocity("transition.slideDownOut", 500);
-					$("#loginPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
+					console.log(data);
+					mountUser(data.userIntel);
+					$(".appPanel").velocity("transition.slideRightBigOut", 500);
+					$(".dashComp").delay(800).velocity("transition.slideUpIn", 600);
 				}, 1500);
 			}
 			if (data.scriptResp == 'userAlreadyCompleted') {
@@ -601,10 +620,12 @@ function completeUser() {
 }
 
 function mountUser(userParams) {
+	console.log(userParams);
 	$('.mountUserAvatar').attr('src', userParams.userImg);
 	$('.mountUserAvatar').attr('alt', userParams.nombresUsuario);
 	$('.mountUserNames').html(userParams.nombresUsuario);
 	$('.mountUserNamesAlt').html(userParams.apellidosUsuario);
+	$('.mountUserLastLogin').html(userParams.lastLogin);
 }
 
 ////////////////////////////////////////////////////////////// REENVIAR EMAIL DE VALIDACION
@@ -631,7 +652,7 @@ function resendEmail() {
 	formData.append('meth', 'resendEmail');
 	formData.append('username', username);
 	$.ajax({
-		url: "http://api.miinfo.co/api.php", type: 'POST', dataType: "json",
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
 		success: function (data) {
 			console.log('Ajax response success');
@@ -666,10 +687,34 @@ function resendEmail() {
 	});
 }
 
+//////////////////////////////////////////////////////////////// GET DATA FROM GOOGLE
+function onSuccess(googleUser) {
+	var profile = googleUser.getBasicProfile();
+	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	console.log('Name: ' + profile.getName());
+	console.log('Image URL: ' + profile.getImageUrl());
+	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+function onFailure(googleUser) {
+	console.log('failure'); // Do not send to your backend! Use an ID token instead.
+}
+
+
+//////////////////////////////////////// DESOCNECTAMOS DE GOOGLE
+function signOut() {
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut().then(function () {
+		console.log('User signed out.');
+	});
+}
+
 ////////////////////////////////
 ///////		DEBUG	  //////////
 ////////////////////////////////
-/* $(document).on("click", "#debugApp", function () {
+$(document).on("click", "#debugApp", function () {
 	$(".appPanel").velocity("transition.slideRightBigOut", 500);
 	$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
-}); */
+});
+$(document).on("click", "#debugApp2", function () {
+
+});

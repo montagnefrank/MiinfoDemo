@@ -199,7 +199,6 @@ a{
     position:absolute !important;
     height:40px;
     line-height:40px;
-    bottom:0;
     left:0;
     width:100%
 }
@@ -6570,6 +6569,10 @@ label {
 .hidethis, .userForms, .mainCards {
     display: none;
 }
+
+.hidethisForce{
+    display: none!important;
+}
 .miinfo_about{
     width: 90%;
 }
@@ -6597,4 +6600,33 @@ label {
 .row {
     margin-right: 0px; 
     margin-left: 0px; 
+}
+.updateUserCard label {
+    color: #2d98ff;
+}
+.searchInput {
+    width: 90%;
+}
+
+.profsearchBtn {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+.profsearchIcon {
+    font-size: 100px;
+    height: 100px;
+    width: 50%;
+    position: absolute;
+    z-index: 0;
+    top: 10px;
+    right: 0;
+    opacity: 0.1;
+    padding: 0 15px;
+    pointer-events: none;
+}
+.SRbtn {
+    color: white;
+    border-color: white;
 }

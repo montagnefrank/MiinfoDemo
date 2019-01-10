@@ -55,15 +55,15 @@
         <br>
         <ul class="nav flex-column in" id="side-menu">
             <li class="title-nav">MENU</li>
-            <li class="nav-item active"> <a href="javascript:void(0)" class="menudropdown nav-link"> Inicio<i class="fa fa-angle-down "></i></a>
+            <li class="nav-item active"> <a href="javascript:void(0)" class="menudropdown nav-link"> Cuenta<i class="fa fa-angle-down "></i></a>
                 <ul class="nav flex-column nav-second-level ">
-                    <li class="nav-item pointer">
+                    <li class="nav-item pointer showHomeCards">
+                        <a class="nav-link"><i class="fa fa-home"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item pointer showProfileCards">
                         <a class="nav-link"><i class="fa fa-user-circle-o"></i> Mi Perfil</a>
                     </li>
-                    <li class="nav-item pointer">
-                        <a class="nav-link"><i class="fa fa-cogs"></i> Configuraci&oacute;n</a>
-                    </li>
-                    <li class="nav-item pointer">
+                    <li class="nav-item pointer" id="debugApp2">
                         <a class="nav-link"><i class="fa fa-picture-o"></i> Galer&iacute;a</a>
                     </li>
                     <li class="nav-item pointer">
@@ -102,6 +102,11 @@
             </li>
         </ul>
         <hr>
+        <div class="meeting-subject text-center col ">
+            <button id="logutBtn" class="btn btn-info plsNotThis">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
+            </button>
+        </div>
     </div>
 
     <div class="sidebar-right dashComp appPanel" id="rightSidebar">
@@ -133,6 +138,82 @@
         <br>
         <hr>
         <br>
+        <div class="card updateUserCard">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-16 ">
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-id-card" aria-hidden="true"></i> ID </label>
+                                <input type="text" class="form-control mountUserDniInp" id="dniInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-industry" aria-hidden="true"></i> Nombres / Nombre Comercial
+                                </label>
+                                <input type="text" class="form-control  mountUserNamesInp" id="namesInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-user-plus" aria-hidden="true"></i> Apellidos / Nombre de
+                                    Representante</label>
+                                <input type="text" class="form-control  mountUserNamesAltImp" id="lnamesInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-phone-square" aria-hidden="true"></i> Tel&eacute;fono</label>
+                                <input type="text" class="form-control  mountUserPhoneImp" id="phoneInput">
+                            </div>
+                        </div>
+                        <div class="form-group row  ">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-home" aria-hidden="true"></i> Direcci&oacute;n</label>
+                                <input type="text" class="form-control mountUserDirImp" id="dirInput">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-twitter-square" aria-hidden="true"></i> Url de Twitter</label>
+                                <input type="text" class="form-control mountUserTwitImp" id="twitterInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-linkedin-square" aria-hidden="true"></i> Url de Linkedin</label>
+                                <input type="text" class="form-control mountUserLinkImp" id="linkInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label> <i class="fa fa-facebook-square" aria-hidden="true"></i> Url de Facebook</label>
+                                <input type="text" class="form-control mountUserFbImp" id="fbInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-instagram" aria-hidden="true"></i> Url de Instagram</label>
+                                <input type="text" class="form-control mountUserIgImp" id="igInput">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-briefcase" aria-hidden="true"></i> Breve Bio</label>
+                                <textarea class="form-control mountUserBioImp" id="bioInput" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-16">
+                                <label><i class="fa fa-picture-o" aria-hidden="true"></i> Cambiar Imagen de Perfil</label><br>
+                                <form id="avatarImgFormUP" action="" method="post" enctype="multipart/form-data">
+                                    <div style="margin-top: 10px; margin-bottom: 10px;margin-left: 20px;">
+                                        <input name="avatarInput" type="file" id="avatarInput" />
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-success pull-right submitUpdateForm">
+                    <i class="glyphicon glyphicon-check"></i> Enviar
+                </button>
+            </div>
+        </div>
         <hr>
         <ul class="nav flex-column ">
             <li class="title-nav text-center">
@@ -157,23 +238,232 @@
     </div>
 
     <div class="wrapper-content dashComp appPanel" id="mainPanel">
-        <div class="col-sm-12 col-md-4 col-lg-4 wallCard">
-            <div class="card full-screen-container">
-                <div class="card-body">
-                    <ul class="nav nav-pills card-header-pills pull-left">
-                        <li class="nav-item hidden-sm-down">
-                            <form class="form-inline ml-2  pull-left search-header">
-                                <input class="form-control dark-input" type="text" placeholder="Search">
-                                <button class="btn btn-link icon-header " type="submit"><span class="fa fa-search"></span></button>
-                            </form>
-                        </li>
-                    </ul>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-16 homeCard mainCards">
+                <div class="card full-screen-container">
+                    <div class="card-body">
+                        <h5 class="dyeblue">Buscar en MiInfo</h5>
+                        <input class="form-control dark-input col-sm-8 searchInput" type="text" placeholder="Buscar..."
+                            id="mainSearchInput">
+                        <button class="btn btn-link icon-header profsearchBtn" id="profsearchBtn"><span class="fa fa-search"></span></button>
+                    </div>
+                    <i class="bg-icon text-center fa fa-search profsearchIcon dyeblue"></i>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-lg-8 col-xl-4 homeCard mainCards">
+                <div class="activity-block success">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5 class="mountUserLastLogin">Ult Vez</h5>
+                            <p>&Uacute;ltima conexi&oacute;n</p>
+                        </div>
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+                    <br>
+                    <div class="media">
+                        <div class="media-body"><span class="progress-heading ">Es bueno tenerte de
+                                vuelta!</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="progress ">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 80%;"><span class="trackerball"></span></div>
+                        </div>
+                    </div>
+                    <i class="bg-icon text-center fa fa-calendar-check-o "></i>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-lg-8 col-xl-4 homeCard mainCards">
+                <div class="activity-block primary">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5>0</h5>
+                            <p>Visitas</p>
+                        </div>
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <br>
+                    <div class="media">
+                        <div class="media-body"><span class="progress-heading ">Total de visitas a tu perfil</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="progress ">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 92%;"><span class="trackerball"></span></div>
+                        </div>
+                    </div>
+                    <i class="bg-icon text-center fa fa-eye"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row  align-items-end  social-profile-cover profileCard mainCards">
+            <figure class="background"><img src="assets/img/bg4.jpg" alt="Social cover image"> </figure>
+            <div class="container mb-2">
+                <div class="row  align-items-center justify-content-between p-2">
+                    <figure class="social-profile-pic"><img class="mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                            alt=""></figure>
+                    <div class="col-sm-16 col-md-6 col-lg profile-name">
+                        <h2 class="mountUserNames">Nombre</h2>
+                        <p class="mountUserNamesAlt">Apellido</p>
+                    </div>
+                    <div class="col-16 col-sm-16 col-lg-6 text-right flex-row ">
+                        <button class="btn btn-primary  ml-1">+ Seguir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container profileCard mainCards">
+            <div class="row">
+                <div class="col-lg-16 col-md-16">
+                    <div class="card full-screen-container ">
+                        <div class="card-header align-items-start justify-content-between flex dyeblue">
+                            <h5 class="card-title dyeblue pull-left">Perfil </h5> <i class="fa fa-user fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Bio</dt>
+                                <dd class="col-16 dyeblue mountUserBio">.</dd>
+                                <dt class="col-16 dyeblue">Tel&eacute;fono</dt>
+                                <dd class="col-16 dyeblue mountUserPhone"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Direcci&oacute;n</dt>
+                                <dd class="col-16 dyeblue mountUserDir">Switzerland</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Seguidores <strong>(0) </strong> <small><a href="#">
+                                        Ver
+                                        Todos</a></small></h5>
+                            <i class="fa fa-users fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="dyeblue">No tienes seguidores</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Redes sociales </h5>
+                            <i class="fa fa-twitter fa-2x pull-right"></i>
+                            <i class="fa fa-instagram fa-2x pull-right"></i>
+                            <i class="fa fa-linkedin fa-2x pull-right"></i>
+                            <i class="fa fa-facebook fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Facebook</dt>
+                                <dd class="col-16 dyeblue mountUserFb">.</dd>
+                                <dt class="col-16 dyeblue">LinekIn</dt>
+                                <dd class="col-16 dyeblue mountUserLink"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Instagram</dt>
+                                <dd class="col-16 dyeblue mountUserIg"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Twitter</dt>
+                                <dd class="col-16 dyeblue mountUserTwit"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row SRCard mainCards">
+            <div class="col-16">
+                <div class="card full-screen-container">
+                    <div class="card-header align-items-start justify-content-between flex">
+                        <h5 class="card-title dyeblue pull-left">Resultados de la busqueda</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-unstyled member-list row " id="SRContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row  align-items-end  social-profile-cover viewprofileCard mainCards">
+            <figure class="background"><img src="assets/img/bg4.jpg" alt="Social cover image"> </figure>
+            <div class="container mb-2">
+                <div class="row  align-items-center justify-content-between p-2">
+                    <figure class="social-profile-pic"><img class="SRmountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                            alt=""></figure>
+                    <div class="col-sm-16 col-md-6 col-lg profile-name">
+                        <h2 class="SRmountUserNames">Nombre</h2>
+                        <p class="SRmountUserNamesAlt">Apellido</p>
+                    </div>
+                    <div class="col-16 col-sm-16 col-lg-6 text-right flex-row ">
+                        <button class="btn btn-primary  ml-1">+ Seguir</button>
+                        <button class="btn btn-primary  ml-1 gobackSR">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container viewprofileCard mainCards">
+            <div class="row">
+                <div class="col-lg-16 col-md-16">
+                    <div class="card full-screen-container ">
+                        <div class="card-header align-items-start justify-content-between flex dyeblue">
+                            <h5 class="card-title dyeblue pull-left">Perfil </h5> <i class="fa fa-user fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Bio</dt>
+                                <dd class="col-16 dyeblue SRmountUserBio">.</dd>
+                                <dt class="col-16 dyeblue">Tel&eacute;fono</dt>
+                                <dd class="col-16 dyeblue SRmountUserPhone"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Direcci&oacute;n</dt>
+                                <dd class="col-16 dyeblue SRmountUserDir">Switzerland</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Seguidores <strong>(0) </strong> <small><a href="#">
+                                        Ver
+                                        Todos</a></small></h5>
+                            <i class="fa fa-users fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="dyeblue">No tiene seguidores</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Redes sociales </h5>
+                            <i class="fa fa-twitter fa-2x pull-right"></i>
+                            <i class="fa fa-instagram fa-2x pull-right"></i>
+                            <i class="fa fa-linkedin fa-2x pull-right"></i>
+                            <i class="fa fa-facebook fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Facebook</dt>
+                                <dd class="col-16 dyeblue SRmountUserFb">.</dd>
+                                <dt class="col-16 dyeblue">LinekIn</dt>
+                                <dd class="col-16 dyeblue SRmountUserLink"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Instagram</dt>
+                                <dd class="col-16 dyeblue SRmountUserIg"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Twitter</dt>
+                                <dd class="col-16 dyeblue SRmountUserTwit"></dd>
+                            </dl>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="loginPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="loginPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="loginForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -203,7 +493,7 @@
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="forgotPassPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="forgotPassPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="resetPassForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -224,7 +514,7 @@
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="resendPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="resendPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="resendEmailForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -245,7 +535,7 @@
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="regPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="regPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="regForm">
                 <h2 class="tex-black mb-4">Crea tu Cuenta</h2>

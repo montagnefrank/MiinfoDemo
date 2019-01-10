@@ -26,13 +26,17 @@ $(window).on("load", function () {
 		$(".mainCards").velocity("transition.slideDownOut", 500);
 		$(".underConsCard").delay(600).velocity("transition.slideUpBigIn", 1200);
 	});
-	$(document).on("click", ".showInicioCards", function () {
+	$(document).on("click", ".showHomeCards", function () {
 		$(".mainCards").velocity("transition.slideDownOut", 500);
-		$(".inicioCard").delay(600).velocity("transition.slideUpIn", 500);
-		$('.flexslider').delay(700).flexslider({
-			animation: "slide",
-			controlNav: "thumbnails"
-		});
+		$(".homeCard").delay(600).velocity("transition.slideUpIn", 500);
+	});
+	$(document).on("click", ".showProfileCards", function () {
+		$(".mainCards").velocity("transition.slideDownOut", 500);
+		$(".profileCard").delay(600).velocity("transition.slideUpIn", 500);
+	});
+	$(document).on("click", ".gobackSR", function () {
+		$(".mainCards").velocity("transition.slideDownOut", 500);
+		$(".SRCard").delay(600).velocity("transition.slideUpIn", 500);
 	});
 
 	//////////////////////////////////////////////////////////////// CERRAR AUTOMATICAMENTE LAS BARRAS LATERALES
@@ -96,6 +100,17 @@ $(window).on("load", function () {
 	$('#resendInput').keypress(function (e) {
 		if (e.which == 13) {
 			resendEmail();
+			return false;
+		}
+	});
+
+	///////////////////////////////////////////////////////// CUANDO EL USUARIO HACE CLIC BUSCAR PERFIL
+	$(document).on("click", "#profsearchBtn", function (e) {
+		searchUsers();
+	});
+	$('#mainSearchInput').keypress(function (e) {
+		if (e.which == 13) {
+			searchUsers();
 			return false;
 		}
 	});
@@ -177,7 +192,7 @@ $(window).on("load", function () {
 		}
 	});
 
-	$("#avatarCompInput").fileinput({
+	$("#avatarCompInput, #avatarInput").fileinput({
 		showUpload: false,
 		showCaption: false,
 		maxFileSize: 1000,
@@ -190,7 +205,33 @@ $(window).on("load", function () {
 		completeUser();
 	});
 
+	$(document).on("click", ".submitUpdateForm", function (e) {
+		updateUser();
+	});
+
+	///////////////////// GMAIL
 	signOut();
+
+	//////////////////////////////////////////// TRABAJAR CON LAS BUSQUEDAS
+	$(document).on("click", ".verPerfilBtn", function (e) {
+		self = $(this).parent().parent();
+		console.log(self);
+
+		$('.viewprofileCard').find('.SRmountUserAvatar').attr('src', $(self).find('.userImg').html());
+		$('.viewprofileCard').find('.SRmountUserAvatar').attr('alt', $(self).find('.nombresUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserNames').html($(self).find('.nombresUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserNamesAlt').html($(self).find('.apellidosUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserBio').html($(self).find('.bioUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserPhone').html($(self).find('.telUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserDir').html($(self).find('.dirUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserFb').html($(self).find('.fbUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserLink').html($(self).find('.linkUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserIg').html($(self).find('.igUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserTwit').html($(self).find('.twitterUsuario').html());
+		
+		$(".mainCards").velocity("transition.slideDownOut", 500);
+		$(".viewprofileCard").delay(600).velocity("transition.slideUpIn", 500);
+	});
 });
 
 ////////////////////////////////////////////////////////////// EVENTO AL INICIAR SESION
@@ -252,11 +293,7 @@ function authUser() {
 					mountUser(data.userIntel);
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
-					$(".inicioCard").delay(1200).velocity("transition.slideUpIn", 500);
-					$('.flexslider').delay(1800).flexslider({
-						animation: "slide",
-						controlNav: "thumbnails"
-					});
+					$(".homeCard").delay(1200).velocity("transition.slideUpIn", 500);
 				}
 			}
 			$(".loadingPanel").velocity("transition.fadeOut", 500);
@@ -591,6 +628,7 @@ function completeUser() {
 					mountUser(data.userIntel);
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$(".dashComp").delay(800).velocity("transition.slideUpIn", 600);
+					$(".homeCard").delay(1400).velocity("transition.slideUpIn", 600);
 				}, 1500);
 			}
 			if (data.scriptResp == 'userAlreadyCompleted') {
@@ -625,6 +663,23 @@ function mountUser(userParams) {
 	$('.mountUserNames').html(userParams.nombresUsuario);
 	$('.mountUserNamesAlt').html(userParams.apellidosUsuario);
 	$('.mountUserLastLogin').html(userParams.lastLogin);
+	$('.mountUserBio').html(userParams.bioUsuario);
+	$('.mountUserPhone').html(userParams.telUsuario);
+	$('.mountUserDir').html(userParams.dirUsuario);
+	$('.mountUserTwit').html(userParams.twitterUsuario);
+	$('.mountUserLink').html(userParams.linkUsuario);
+	$('.mountUserFb').html(userParams.fbUsuario);
+	$('.mountUserIg').html(userParams.igUsuario);
+	$('.mountUserNamesInp').val(userParams.nombresUsuario);
+	$('.mountUserNamesAltImp').val(userParams.apellidosUsuario);
+	$('.mountUserPhoneImp').val(userParams.telUsuario);
+	$('.mountUserDirImp').val(userParams.dirUsuario);
+	$('.mountUserTwitImp').val(userParams.twitterUsuario);
+	$('.mountUserLinkImp').val(userParams.linkUsuario);
+	$('.mountUserFbImp').val(userParams.fbUsuario);
+	$('.mountUserIgImp').val(userParams.igUsuario);
+	$('.mountUserBioImp').val(userParams.bioUsuario);
+	$('.mountUserDniInp').val(userParams.dniUsuario);
 }
 
 ////////////////////////////////////////////////////////////// REENVIAR EMAIL DE VALIDACION
@@ -714,7 +769,7 @@ function onSuccess(googleUser) {
 				notifyThem('danger', 'No pudimos validar su usuario, intente de nuevo');
 				$('#newusername_input,#newpassword_input').val('');
 			}
-			
+
 			if (data.scriptResp == 'failuserReg') {
 				notifyThem('danger', 'No pudimos crear tu usuario, intenta de nuevo');
 			}
@@ -729,11 +784,7 @@ function onSuccess(googleUser) {
 					mountUser(data.userIntel);
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
-					$(".inicioCard").delay(1200).velocity("transition.slideUpIn", 500);
-					$('.flexslider').delay(1800).flexslider({
-						animation: "slide",
-						controlNav: "thumbnails"
-					});
+					$(".homeCard").delay(1200).velocity("transition.slideUpIn", 500);
 				}
 			}
 			$(".loadingPanel").velocity("transition.fadeOut", 500);
@@ -762,9 +813,195 @@ function signOut() {
 	});
 }
 
+////////////////////////////////////////////////////////////// ACTUALIZAMOS LA DATA DEL USUARIO
+function updateUser() {
+	var idUsuario = window.userIntel.idUsuario,
+		emailUsuario = window.userIntel.emailUsuario,
+		dirUsuario = $('#dirInput').val(),
+		twitterUsuario = $('#twitterInput').val(),
+		linkUsuario = $('#linkInput').val(),
+		fbUsuario = $('#fbInput').val(),
+		igUsuario = $('#igInput').val(),
+		bioUsuario = $('#bioInput').val(),
+		dniUsuario = $('#dniInput').val(),
+		nombresUsuario = $('#namesInput').val(),
+		apellidosUsuario = $('#lnamesInput').val(),
+		telUsuario = $('#phoneInput').val();
+
+	if (dniUsuario == '' || nombresUsuario == '' || apellidosUsuario == '' || telUsuario == '') {
+		dniUsuario == '' ? $("#dniInput").velocity("callout.shake") :
+			nombresUsuario == '' ? $("#namesInput").velocity("callout.shake") :
+				apellidosUsuario == '' ? $("#lnamesInput").velocity("callout.shake") :
+					$("#phoneInput").velocity("callout.shake");
+		notifyThem('warning', 'Debes llenar todos los campos');
+		return false;
+	}
+	if (twitterUsuario.length > 0 && !validURL(twitterUsuario)) {
+		$("#twitterInput").velocity("callout.shake");
+		notifyThem('danger', 'No es una URL válida');
+		return false;
+	}
+	if (linkUsuario.length > 0 && !validURL(linkUsuario)) {
+		$("#linkInput").velocity("callout.shake");
+		notifyThem('danger', 'No es una URL válida');
+		return false;
+	}
+	if (fbUsuario.length > 0 && !validURL(fbUsuario)) {
+		$("#fbInput").velocity("callout.shake");
+		notifyThem('danger', 'No es una URL válida');
+		return false;
+	}
+	if (igUsuario.length > 0 && !validURL(igUsuario)) {
+		$("#igInput").velocity("callout.shake");
+		notifyThem('danger', 'No es una URL válida');
+		return false;
+	}
+	if ($('#avatarInput')[0].files.length > 0) {
+		var extens = $('#avatarInput')[0].files[0].name.split('.').pop().toLowerCase();
+		if (extens != 'jpg' && extens != 'png') {
+			$("#avatarImgFormUP").velocity("callout.shake");
+			notifyThem('danger', 'El archivo no es una imagen aceptada');
+			return false;
+		}
+	}
+
+	$(".loadingPanel").velocity("transition.fadeIn", 500);
+
+	var formData = new FormData();
+	formData.append('meth', 'updateUser');
+	formData.append('idUsuario', idUsuario);
+	formData.append('emailUsuario', emailUsuario);
+	formData.append('dniUsuario', dniUsuario);
+	formData.append('nombresUsuario', nombresUsuario);
+	formData.append('apellidosUsuario', apellidosUsuario);
+	formData.append('telUsuario', telUsuario);
+	dirUsuario.length > 0 ? formData.append('dirUsuario', dirUsuario) : formData.append('dirUsuario', '');
+	twitterUsuario.length > 0 ? formData.append('twitterUsuario', twitterUsuario) : formData.append('twitterUsuario', '');
+	linkUsuario.length > 0 ? formData.append('linkUsuario', linkUsuario) : formData.append('linkUsuario', '');
+	fbUsuario.length > 0 ? formData.append('fbUsuario', fbUsuario) : formData.append('fbUsuario', '');
+	igUsuario.length > 0 ? formData.append('igUsuario', igUsuario) : formData.append('igUsuario', '');
+	bioUsuario.length > 0 ? formData.append('bioUsuario', bioUsuario) : formData.append('bioUsuario', '');
+	$('#avatarCompInput')[0].files.length > 0 ? formData.append('avatarUsuario', $('#avatarCompInput')[0].files[0]) : formData.append('avatarUsuario', '');
+	$.ajax({
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+		cache: false, contentType: false, processData: false, data: formData,
+		success: function (data) {
+			console.log('Ajax response success');
+			console.log(data);
+
+			if (data.scriptResp == 'UserUpdated') {
+				notifyThem('primary', 'Los datos de su cuenta han sido Actualizados Exitosamente');
+				setTimeout(function (e) {
+					mountUser(data.userIntel);
+				}, 1500);
+			}
+			if (data.scriptResp == 'badImg') {
+				notifyThem('danger', 'La imagen esta corrupta, intente con una distinta');
+			}
+			if (data.scriptResp == 'imageNotUploaded') {
+				notifyThem('danger', 'La imagen no se puede subir, intente una distinta');
+			}
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
+		},
+		error: function (data, xhr, status, error) {
+			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+			console.log(data);
+			notifyThem('danger', 'Error de Internet');
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
+		}
+	});
+}
+
+////////////////////////////////////////////////////////////// BUSCAMOS USUARIOS EN LA DB
+function searchUsers() {
+	var term = $('#mainSearchInput').val();
+
+	if (term == '') {
+		$("#mainSearchInput").velocity("callout.shake");
+		notifyThem('warning', 'Debes ingresar un valor para buscar');
+		return false;
+	}
+
+	if (term.length < 3) {
+		$("#mainSearchInput").velocity("callout.shake");
+		notifyThem('warning', 'Debes ingresar mas caracteres');
+		return false;
+	}
+
+	$(".loadingPanel").velocity("transition.fadeIn", 500);
+	$('#mainSearchInput').val('');
+	var formData = new FormData();
+	formData.append('meth', 'searchUsers');
+	formData.append('term', term);
+	$.ajax({
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+		cache: false, contentType: false, processData: false, data: formData,
+		success: function (data) {
+			console.log('Ajax response success');
+			console.log(data);
+
+			if (data.scriptResp == 'userqueryFail') {
+				notifyThem('danger', 'No pudimos validar su usuario, intente de nuevo');
+				$('#newusername_input,#newpassword_input').val('');
+			}
+
+			if (data.scriptResp == 'empty') {
+				notifyThem('warning', 'No encontramos resultados que coincidan con tu busqueda');
+			}
+
+			if (data.scriptResp == 'results') {
+				console.log(data);
+				var html = '';
+				$.each(data.results, function (key, value) {
+					html += ' <div class="col-lg-4 col-sm-8 col-xs-16 "> ' +
+						'	<div class="media flex-column ">' +
+						'		<figure class="background"><img class="d-flex mr-3" src="' + value.userImg + '" alt="Generic user image"></figure>' +
+						'		<span class="message_userpic large"><img class="d-flex mr-3" src="' + value.userImg + '"' +
+						'				alt="Generic user image"> <span class="user-status bg-success "></span></span>' +
+						'		<div class="media-body">' +
+						'			<h6 class="mt-0 mb-1">' + value.nombresUsuario + '</h6>' +
+						'			' + value.apellidosUsuario + '<br>' +
+						'			<br>' +
+						'			<button class="btn btn-outline-primary btn-round SRbtn">+ Seguir</button>' +
+						'			<button class="btn btn-outline-success btn-round ml-2 SRbtn verPerfilBtn">Ver Perfil</button>' +
+						'		</div>' +
+						'		<div class="hidethisForce">' +
+						'			<div class="apellidosUsuario">' + value.apellidosUsuario + '</div>' +
+						'			<div class="bioUsuario">' + value.bioUsuario + '</div>' +
+						'			<div class="dirUsuario">' + value.dirUsuario + '</div>' +
+						'			<div class="emailUsuario">' + value.emailUsuario + '</div>' +
+						'			<div class="fbUsuario">' + value.fbUsuario + '</div>' +
+						'			<div class="igUsuario">' + value.igUsuario + '</div>' +
+						'			<div class="linkUsuario">' + value.linkUsuario + '</div>' +
+						'			<div class="nombresUsuario">' + value.nombresUsuario + '</div>' +
+						'			<div class="telUsuario">' + value.telUsuario + '</div>' +
+						'			<div class="twitterUsuario">' + value.twitterUsuario + '</div>' +
+						'			<div class="userImg">' + value.userImg + '</div>' +
+						'		</div>' +
+						'	</div>' +
+						'</div>';
+				});
+				$('#SRContainer').html('');
+				$('#SRContainer').append(html);
+
+				$(".mainCards").velocity("transition.slideDownOut", 500);
+				$(".SRCard").delay(600).velocity("transition.slideUpIn", 500);
+			}
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
+		},
+		error: function (data, xhr, status, error) {
+			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+			console.log(data);
+			notifyThem('danger', 'Error de Internet');
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
+		}
+	});
+}
+
 ////////////////////////////////
 ///////		DEBUG	  //////////
 ////////////////////////////////
-$(document).on("click", "#debugApp", function () {
-	$(".loadingPanel").toggle();
+$(document).on("click", "#debugApp2", function () {
+	$(".mainCards").velocity("transition.slideDownOut", 500);
+	$(".SRCard").delay(600).velocity("transition.slideUpIn", 500);
 });

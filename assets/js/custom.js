@@ -217,8 +217,7 @@ function authUser() {
 		return false;
 	}
 
-	// LOADING IMPORTANT
-	$("#submitBtn").html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
+	$(".loadingPanel").velocity("transition.fadeIn", 500);
 
 	var formData = new FormData();
 	formData.append('meth', 'login');
@@ -260,13 +259,13 @@ function authUser() {
 					});
 				}
 			}
-			$("#submitBtn").html('Ingresar');
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
 		},
 		error: function (data, xhr, status, error) {
 			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
 			console.log(data);
 			notifyThem('danger', 'Error de Internet');
-			$("#submitBtn").html('Ingresar');
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
 		}
 	});
 }
@@ -690,15 +689,71 @@ function resendEmail() {
 //////////////////////////////////////////////////////////////// GET DATA FROM GOOGLE
 function onSuccess(googleUser) {
 	var profile = googleUser.getBasicProfile();
-	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	console.log('Name: ' + profile.getName());
-	console.log('Image URL: ' + profile.getImageUrl());
-	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
-function onFailure(googleUser) {
-	console.log('failure'); // Do not send to your backend! Use an ID token instead.
+	var gid = profile.getId();
+	var gname = profile.getName();
+	var gimgurl = profile.getImageUrl();
+	var gmail = profile.getEmail();
+
+
+	$(".loadingPanel").velocity("transition.fadeIn", 500);
+	$(".g-signin2").velocity("transition.fadeOut", 500);
+
+	var formData = new FormData();
+	formData.append('meth', 'GLogin');
+	formData.append('username', gmail);
+	formData.append('password', gid);
+	formData.append('usrimG', gimgurl);
+	$.ajax({
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+		cache: false, contentType: false, processData: false, data: formData,
+		success: function (data) {
+			console.log('Ajax response success');
+			console.log(data);
+
+			if (data.scriptResp == 'userqueryFail') {
+				notifyThem('danger', 'No pudimos validar su usuario, intente de nuevo');
+				$('#newusername_input,#newpassword_input').val('');
+			}
+			
+			if (data.scriptResp == 'failuserReg') {
+				notifyThem('danger', 'No pudimos crear tu usuario, intenta de nuevo');
+			}
+
+			if (data.scriptResp == 'match') {
+				window.userIntel = data.userIntel;
+				if (data.userIntel.statusUsuario == 'valid') {
+					$(".appPanel").velocity("transition.slideRightBigOut", 500);
+					$("#completeAccPanel").delay(500).velocity("transition.slideUpIn", 600);
+				}
+				if (data.userIntel.statusUsuario == 'complete') {
+					mountUser(data.userIntel);
+					$(".appPanel").velocity("transition.slideRightBigOut", 500);
+					$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
+					$(".inicioCard").delay(1200).velocity("transition.slideUpIn", 500);
+					$('.flexslider').delay(1800).flexslider({
+						animation: "slide",
+						controlNav: "thumbnails"
+					});
+				}
+			}
+			$(".loadingPanel").velocity("transition.fadeIn", 500);
+			$(".g-signin2").velocity("transition.fadeOut", 500);
+		},
+		error: function (data, xhr, status, error) {
+			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+			console.log(data);
+			notifyThem('danger', 'Error de Internet');
+			$(".loadingPanel").velocity("transition.fadeIn", 500);
+			$(".g-signin2").velocity("transition.fadeOut", 500);
+		}
+	});
 }
 
+function onFailure(googleUser) {
+	$(".g-signin2").velocity("callout.shake");
+	notifyThem('danger', 'No pudimos comprobar tu Google');
+	return false;
+}
 
 //////////////////////////////////////// DESOCNECTAMOS DE GOOGLE
 function signOut() {
@@ -712,9 +767,5 @@ function signOut() {
 ///////		DEBUG	  //////////
 ////////////////////////////////
 $(document).on("click", "#debugApp", function () {
-	$(".appPanel").velocity("transition.slideRightBigOut", 500);
-	$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
-});
-$(document).on("click", "#debugApp2", function () {
-
+	$(".loadingPanel").toggle();
 });

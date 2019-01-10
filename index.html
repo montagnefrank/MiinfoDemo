@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="assets/vendor/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker.css" type="text/css">
     <link rel="stylesheet" href="assets/css/icons.css" type="text/css">
     <link rel="stylesheet" href="assets/css/theme.css" type="text/css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="123378922774-ueo8aev3ok8ifqdmma7v1kou5pgl5vms.apps.googleusercontent.com">
 </head>
 
 <body class="menuclose-right rounded menuclose">
@@ -24,10 +26,6 @@
             <div class="sidebar-left"> <a class="navbar-brand imglogo"></a>
                 <button class="btn btn-link icon-header mr-sm-2 pull-right menu-collapse"><span class="fa fa-bars dyeblue"></span></button>
             </div>
-            <form class="form-inline mr-sm-2  pull-left search-header hidden-md-down">
-                <input class="form-control " type="text" placeholder="Buscar..." id="search_header">
-                <button class="btn btn-link icon-header " type="submit"><span class="fa fa-search"></span></button>
-            </form>
             <div class="d-flex mr-auto"> &nbsp;</div>
 
             <ul class="navbar-nav content-left">
@@ -57,21 +55,21 @@
         <br>
         <ul class="nav flex-column in" id="side-menu">
             <li class="title-nav">MENU</li>
-            <li class="nav-item active"> <a href="javascript:void(0)" class="menudropdown nav-link"> Inicio<i class="fa fa-angle-down "></i></a>
+            <li class="nav-item active"> <a href="javascript:void(0)" class="menudropdown nav-link"> Cuenta<i class="fa fa-angle-down "></i></a>
                 <ul class="nav flex-column nav-second-level ">
-                    <li class="nav-item">
+                    <li class="nav-item pointer showHomeCards">
+                        <a class="nav-link"><i class="fa fa-home"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item pointer showProfileCards">
                         <a class="nav-link"><i class="fa fa-user-circle-o"></i> Mi Perfil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-cogs"></i> Configuraci&oacute;n</a>
-                    </li>
-                    <li class="nav-item">
+                    <li class="nav-item pointer" id="debugApp2">
                         <a class="nav-link"><i class="fa fa-picture-o"></i> Galer&iacute;a</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item pointer">
                         <a class="nav-link"><i class="fa fa-cubes"></i> Servicios</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item pointer">
                         <a class="nav-link"><i class="fa fa-bullhorn"></i> Blog</a>
                     </li>
                 </ul>
@@ -79,76 +77,160 @@
             <li class="nav-item "> <a href="javascript:void(0)" class="menudropdown nav-link"> Promociones<i class="fa fa-angle-down "></i></a>
                 <ul class="nav flex-column nav-second-level ">
                     <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-plus-circle"></i> Crear Promoci&oacute;n</a>
+                        <a class="nav-link pointer"><i class="fa fa-plus-circle"></i> Crear Promoci&oacute;n</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-list-ol"></i> Listar Promociones</a>
+                        <a class="nav-link pointer"><i class="fa fa-list-ol"></i> Listar Promociones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-pie-chart"></i> Resultados</a>
+                        <a class="nav-link pointer"><i class="fa fa-pie-chart"></i> Resultados</a>
                     </li>
+                </ul>
+            </li>
+            <li class="nav-item "> <a href="javascript:void(0)" class="menudropdown nav-link"> Eventos<i class="fa fa-angle-down "></i></a>
+                <ul class="nav flex-column nav-second-level ">
+                    <li class="nav-item">
+                        <a class="nav-link pointer"><i class="fa fa-plus-circle"></i> Crear Evento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer"><i class="fa fa-list-ol"></i> Listar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer"><i class="fa fa-pie-chart"></i> Resultados</a>
+                    </li>
+                </ul>
             </li>
         </ul>
-        </li>
-        <li class="nav-item "> <a href="javascript:void(0)" class="menudropdown nav-link"> Eventos<i class="fa fa-angle-down "></i></a>
-            <ul class="nav flex-column nav-second-level ">
-                <li class="nav-item">
-                    <a class="nav-link"><i class="fa fa-plus-circle"></i> Crear Evento</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"><i class="fa fa-list-ol"></i> Listar Eventos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"><i class="fa fa-pie-chart"></i> Resultados</a>
-                </li>
-        </li>
-        </ul>
-        </li>
-        </ul>
         <hr>
+        <div class="meeting-subject text-center col ">
+            <button id="logutBtn" class="btn btn-info plsNotThis">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
+            </button>
+        </div>
     </div>
 
     <div class="sidebar-right dashComp appPanel" id="rightSidebar">
         <ul class="nav flex-column ">
             <li class="nav-item text-center">
                 <div class="list-unstyled member-list row">
-                    <div class="col-lg-16 col-xs-16 "> 
+                    <div class="col-lg-16 col-xs-16 ">
                         <div class="media flex-column selfcard">
-                            <figure class="background"><img class="d-flex mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg" alt="Generic user image"></figure>
-                            <span class="message_userpic large"><img class="d-flex mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg" alt="Generic user image">
+                            <figure class="background"><img class="d-flex mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                                    alt="Generic user image"></figure>
+                            <span class="message_userpic large"><img class="d-flex mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                                    alt="Generic user image">
                                 <span class="user-status bg-success "></span></span>
                             <div class="media-body text-white">
-                                <h6 class="mt-0 mb-1 text-white mountUserNames">Astha Smith</h6>
-                                <span class="mountUserNamesAlt"> Jersey, UK</span><br>
+                                <h6 class="mt-0 mb-1 text-white mountUserNames">Nombre</h6>
+                                <span class="mountUserNamesAlt"> Representante</span><br>
                                 <br>
                             </div>
                         </div>
                     </div>
-                    <div class="meeting-subject text-center col "><button id="logutBtn" class="btn btn-info plsNotThis">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i> Salir</button> </div>
-                    
+                    <div class="meeting-subject text-center col ">
+                        <button id="logutBtn" class="btn btn-info plsNotThis">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
+                        </button>
+                    </div>
+                </div>
             </li>
         </ul>
         <br>
         <hr>
-        <div class="row">
-                <div class="col-8 col-md-4 col-xl-4 text-center">
-                  <div class="progress-circle progress-success" data-value="0.65"  data-size="140"  data-thickness="4"  data-animation-start-value="0" data-reverse="false" ><strong>65</strong></div>
-                  <br>
-                  <p class="text-uppercase">Active Users</p>
-                </div>
-              </div>F
         <br>
+        <div class="card updateUserCard">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-16 ">
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-id-card" aria-hidden="true"></i> ID </label>
+                                <input type="text" class="form-control mountUserDniInp" id="dniInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-industry" aria-hidden="true"></i> Nombres / Nombre Comercial
+                                </label>
+                                <input type="text" class="form-control  mountUserNamesInp" id="namesInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-user-plus" aria-hidden="true"></i> Apellidos / Nombre de
+                                    Representante</label>
+                                <input type="text" class="form-control  mountUserNamesAltImp" id="lnamesInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-phone-square" aria-hidden="true"></i> Tel&eacute;fono</label>
+                                <input type="text" class="form-control  mountUserPhoneImp" id="phoneInput">
+                            </div>
+                        </div>
+                        <div class="form-group row  ">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-home" aria-hidden="true"></i> Direcci&oacute;n</label>
+                                <input type="text" class="form-control mountUserDirImp" id="dirInput">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-twitter-square" aria-hidden="true"></i> Url de Twitter</label>
+                                <input type="text" class="form-control mountUserTwitImp" id="twitterInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-linkedin-square" aria-hidden="true"></i> Url de Linkedin</label>
+                                <input type="text" class="form-control mountUserLinkImp" id="linkInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label> <i class="fa fa-facebook-square" aria-hidden="true"></i> Url de Facebook</label>
+                                <input type="text" class="form-control mountUserFbImp" id="fbInput">
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-instagram" aria-hidden="true"></i> Url de Instagram</label>
+                                <input type="text" class="form-control mountUserIgImp" id="igInput">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-16">
+                                <label><i class="fa fa-briefcase" aria-hidden="true"></i> Breve Bio</label>
+                                <textarea class="form-control mountUserBioImp" id="bioInput" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-16">
+                                <label><i class="fa fa-picture-o" aria-hidden="true"></i> Cambiar Imagen de Perfil</label><br>
+                                <form id="avatarImgFormUP" action="" method="post" enctype="multipart/form-data">
+                                    <div style="margin-top: 10px; margin-bottom: 10px;margin-left: 20px;">
+                                        <input name="avatarInput" type="file" id="avatarInput" />
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-success pull-right submitUpdateForm">
+                    <i class="glyphicon glyphicon-check"></i> Enviar
+                </button>
+            </div>
+        </div>
         <hr>
         <ul class="nav flex-column ">
-            <li class="title-nav text-center">Plataforma Miinfo</li>
+            <li class="title-nav text-center">
+                Plataforma Miinfo
+            </li>
             <li class="nav-item">
                 <div class="list-unstyled">
-                    <aclass="media text-center">
-                        <span class="col text-center"><img class="miinfo_about" src="assets/img/logo2.png" alt="Miinfo"></span>
+                    <a class="media text-center">
+                        <span class="col text-center">
+                            <img class="miinfo_about" src="assets/img/logo2.png" alt="Miinfo">
+                        </span>
                         <br>
-                        </a>
+                    </a>
                 </div>
+            </li>
+            <li class="title-nav text-center">
+                Ver. 1.3.1.2
             </li>
         </ul>
         <br>
@@ -156,9 +238,232 @@
     </div>
 
     <div class="wrapper-content dashComp appPanel" id="mainPanel">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-16 homeCard mainCards">
+                <div class="card full-screen-container">
+                    <div class="card-body">
+                        <h5 class="dyeblue">Buscar en MiInfo</h5>
+                        <input class="form-control dark-input col-sm-8 searchInput" type="text" placeholder="Buscar..."
+                            id="mainSearchInput">
+                        <button class="btn btn-link icon-header profsearchBtn" id="profsearchBtn"><span class="fa fa-search"></span></button>
+                    </div>
+                    <i class="bg-icon text-center fa fa-search profsearchIcon dyeblue"></i>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-lg-8 col-xl-4 homeCard mainCards">
+                <div class="activity-block success">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5 class="mountUserLastLogin">Ult Vez</h5>
+                            <p>&Uacute;ltima conexi&oacute;n</p>
+                        </div>
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+                    <br>
+                    <div class="media">
+                        <div class="media-body"><span class="progress-heading ">Es bueno tenerte de
+                                vuelta!</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="progress ">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 80%;"><span class="trackerball"></span></div>
+                        </div>
+                    </div>
+                    <i class="bg-icon text-center fa fa-calendar-check-o "></i>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-lg-8 col-xl-4 homeCard mainCards">
+                <div class="activity-block primary">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5>0</h5>
+                            <p>Visitas</p>
+                        </div>
+                        <i class="fa fa-eye"></i>
+                    </div>
+                    <br>
+                    <div class="media">
+                        <div class="media-body"><span class="progress-heading ">Total de visitas a tu perfil</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="progress ">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 92%;"><span class="trackerball"></span></div>
+                        </div>
+                    </div>
+                    <i class="bg-icon text-center fa fa-eye"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row  align-items-end  social-profile-cover profileCard mainCards">
+            <figure class="background"><img src="assets/img/bg4.jpg" alt="Social cover image"> </figure>
+            <div class="container mb-2">
+                <div class="row  align-items-center justify-content-between p-2">
+                    <figure class="social-profile-pic"><img class="mountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                            alt=""></figure>
+                    <div class="col-sm-16 col-md-6 col-lg profile-name">
+                        <h2 class="mountUserNames">Nombre</h2>
+                        <p class="mountUserNamesAlt">Apellido</p>
+                    </div>
+                    <div class="col-16 col-sm-16 col-lg-6 text-right flex-row ">
+                        <button class="btn btn-primary  ml-1">+ Seguir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container profileCard mainCards">
+            <div class="row">
+                <div class="col-lg-16 col-md-16">
+                    <div class="card full-screen-container ">
+                        <div class="card-header align-items-start justify-content-between flex dyeblue">
+                            <h5 class="card-title dyeblue pull-left">Perfil </h5> <i class="fa fa-user fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Bio</dt>
+                                <dd class="col-16 dyeblue mountUserBio">.</dd>
+                                <dt class="col-16 dyeblue">Tel&eacute;fono</dt>
+                                <dd class="col-16 dyeblue mountUserPhone"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Direcci&oacute;n</dt>
+                                <dd class="col-16 dyeblue mountUserDir">Switzerland</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Seguidores <strong>(0) </strong> <small><a href="#">
+                                        Ver
+                                        Todos</a></small></h5>
+                            <i class="fa fa-users fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="dyeblue">No tienes seguidores</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Redes sociales </h5>
+                            <i class="fa fa-twitter fa-2x pull-right"></i>
+                            <i class="fa fa-instagram fa-2x pull-right"></i>
+                            <i class="fa fa-linkedin fa-2x pull-right"></i>
+                            <i class="fa fa-facebook fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Facebook</dt>
+                                <dd class="col-16 dyeblue mountUserFb">.</dd>
+                                <dt class="col-16 dyeblue">LinekIn</dt>
+                                <dd class="col-16 dyeblue mountUserLink"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Instagram</dt>
+                                <dd class="col-16 dyeblue mountUserIg"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Twitter</dt>
+                                <dd class="col-16 dyeblue mountUserTwit"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row SRCard mainCards">
+            <div class="col-16">
+                <div class="card full-screen-container">
+                    <div class="card-header align-items-start justify-content-between flex">
+                        <h5 class="card-title dyeblue pull-left">Resultados de la busqueda</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-unstyled member-list row " id="SRContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row  align-items-end  social-profile-cover viewprofileCard mainCards">
+            <figure class="background"><img src="assets/img/bg4.jpg" alt="Social cover image"> </figure>
+            <div class="container mb-2">
+                <div class="row  align-items-center justify-content-between p-2">
+                    <figure class="social-profile-pic"><img class="SRmountUserAvatar" src="http://api.miinfo.co/assets/img/users/default.jpg"
+                            alt=""></figure>
+                    <div class="col-sm-16 col-md-6 col-lg profile-name">
+                        <h2 class="SRmountUserNames">Nombre</h2>
+                        <p class="SRmountUserNamesAlt">Apellido</p>
+                    </div>
+                    <div class="col-16 col-sm-16 col-lg-6 text-right flex-row ">
+                        <button class="btn btn-primary  ml-1">+ Seguir</button>
+                        <button class="btn btn-primary  ml-1 gobackSR">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container viewprofileCard mainCards">
+            <div class="row">
+                <div class="col-lg-16 col-md-16">
+                    <div class="card full-screen-container ">
+                        <div class="card-header align-items-start justify-content-between flex dyeblue">
+                            <h5 class="card-title dyeblue pull-left">Perfil </h5> <i class="fa fa-user fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Bio</dt>
+                                <dd class="col-16 dyeblue SRmountUserBio">.</dd>
+                                <dt class="col-16 dyeblue">Tel&eacute;fono</dt>
+                                <dd class="col-16 dyeblue SRmountUserPhone"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Direcci&oacute;n</dt>
+                                <dd class="col-16 dyeblue SRmountUserDir">Switzerland</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Seguidores <strong>(0) </strong> <small><a href="#">
+                                        Ver
+                                        Todos</a></small></h5>
+                            <i class="fa fa-users fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="dyeblue">No tiene seguidores</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card full-screen-container ">
+                        <div class="card-header dyeblue align-items-start justify-content-between flex">
+                            <h5 class="card-title dyeblue pull-left">Redes sociales </h5>
+                            <i class="fa fa-twitter fa-2x pull-right"></i>
+                            <i class="fa fa-instagram fa-2x pull-right"></i>
+                            <i class="fa fa-linkedin fa-2x pull-right"></i>
+                            <i class="fa fa-facebook fa-2x pull-right"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row full-width">
+                                <dt class="col-16 dyeblue">Facebook</dt>
+                                <dd class="col-16 dyeblue SRmountUserFb">.</dd>
+                                <dt class="col-16 dyeblue">LinekIn</dt>
+                                <dd class="col-16 dyeblue SRmountUserLink"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Instagram</dt>
+                                <dd class="col-16 dyeblue SRmountUserIg"></dd>
+                                <dt class="col-16 dyeblue text-truncate">Twitter</dt>
+                                <dd class="col-16 dyeblue SRmountUserTwit"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="loginPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="loginPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="loginForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -170,8 +475,11 @@
                 <br>
                 <a class="btn btn-lg btn-primary btn-round" id="submitBtn">Ingresar</a> <br>
                 <br>
+                <div class="g-signin2" data-onsuccess="onSuccess" data-width="240" data-height="50" data-longtitle="true"
+                    data-theme="dark" data-onfailure="onFailure"></div>
+                <br>
                 <p class="mt-3">
-                    <a class="text-white" id="regBtn">¡Registrate Aquí!</a>
+                    <a class="text-white pointer" id="regBtn">¡Registrate Aquí!</a>
 
                 </p>
             </form>
@@ -179,13 +487,13 @@
         </div>
         <footer class="footer-content row  justify-content-between align-items-center">
             <div class="col-sm-8 text-right">
-                <a class="text-white" id="debugApp">Términos de uso</a> |
-                <a class="text-white forgotPassBtn" id="forgotPassBtn_footer">¿No recuerdas tu contraseña?</a>
+                <a class="text-white pointer" id="debugApp">Términos de uso</a> |
+                <a class="text-white forgotPassBtn pointer" id="forgotPassBtn_footer">¿No recuerdas tu contraseña?</a>
             </div>
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="forgotPassPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="forgotPassPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="resetPassForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -194,19 +502,19 @@
                 <br>
                 <a class="btn btn-lg btn-primary btn-round" id="fpBtn">Enviar correo</a> <br>
                 <br>
-                <p class="mt-3"><a class="text-white loginBtn">¡Deseo iniciar sesi&oacute;n!</a> <br></p>
+                <p class="mt-3"><a class="text-white loginBtn pointer">¡Deseo iniciar sesi&oacute;n!</a> <br></p>
             </form>
             <br>
         </div>
         <footer class="footer-content row  justify-content-between align-items-center">
             <div class="col-sm-8 text-right">
-                <a class="text-white">Términos de uso</a> |
-                <a class="text-white regBtn">¡Registrate Aquí!</a>
+                <a class="text-white pointer">Términos de uso</a> |
+                <a class="text-white regBtn pointer">¡Registrate Aquí!</a>
             </div>
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="resendPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="resendPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="resendEmailForm">
                 <img src="assets/img/logo2.png" class="loginImg">
@@ -215,19 +523,19 @@
                 <br>
                 <a class="btn btn-lg btn-primary btn-round" id="resendBtn">Reenviar correo</a> <br>
                 <br>
-                <p class="mt-3"><a class="text-white loginBtn">¡Deseo iniciar sesi&oacute;n!</a> <br></p>
+                <p class="mt-3"><a class="text-white loginBtn pointer">¡Deseo iniciar sesi&oacute;n!</a> <br></p>
             </form>
             <br>
         </div>
         <footer class="footer-content row  justify-content-between align-items-center">
             <div class="col-sm-8 text-right">
-                <a class="text-white">Términos de uso</a> |
-                <a class="text-white regBtn">¡Registrate Aquí!</a>
+                <a class="text-white pointer">Términos de uso</a> |
+                <a class="text-white regBtn pointer">¡Registrate Aquí!</a>
             </div>
         </footer>
     </div>
 
-    <div class="wrapper-content-sign-in p-0  appPanel" id="regPanel">
+    <div class="wrapper-content-sign-in p-0 appPanel" id="regPanel">
         <div class="col-md-8 offset-md-8 text-left side_signing_full">
             <form class="form-signin1 full_side text-white " id="regForm">
                 <h2 class="tex-black mb-4">Crea tu Cuenta</h2>
@@ -242,15 +550,15 @@
                 <br>
                 <a class="btn btn-lg btn-primary btn-round" id="newUserBtn">Crear Cuenta</a> <br>
                 <br>
-                <p class="mt-3"><a class="text-white" id="loginBtn">¡Ya tengo una cuenta!</a> <br>
+                <p class="mt-3"> <a class="text-white pointer" id="loginBtn">¡Ya tengo una cuenta!</a> <br>
                 </p>
             </form>
             <br>
         </div>
         <footer class="footer-content row  justify-content-between align-items-center">
             <div class="col-sm-8 text-right">
-                <a class="text-white">Términos de uso</a> |
-                <a class="text-white forgotPassBtn">¿No recuerdas tu contraseña?</a>
+                <a class="text-white pointer">Términos de uso</a> |
+                <a class="text-white forgotPassBtn pointer">¿No recuerdas tu contraseña?</a>
             </div>
         </footer>
     </div>
@@ -440,6 +748,112 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="overlayLoad appPanel loadingPanel">
+        <svg class="lds-gooeyring" width="80%" height="80%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <defs>
+                <filter id="gooey" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="2.4000000000000004"></feGaussianBlur>
+                    <feComponentTransfer result="cutoff">
+                        <feFuncA type="linear" slope="10" intercept="-5"></feFuncA>
+                    </feComponentTransfer>
+                </filter>
+            </defs>
+            <g filter="url(#gooey)">
+                <g transform="translate(50 50)">
+                    <g transform="rotate(70.7108)">
+                        <circle cx="25" cy="0" r="5.48562" fill="#b5ccf1">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="10s" repeatCount="indefinite" begin="-10s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="10s"
+                            repeatCount="indefinite" begin="0s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(221.422)">
+                        <circle cx="25" cy="0" r="5.23791" fill="#94a9ce">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="5s" repeatCount="indefinite" begin="-8.88888888888889s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="5s"
+                            repeatCount="indefinite" begin="-1.1111111111111112s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(92.1323)">
+                        <circle cx="25" cy="0" r="4.34314" fill="#667395">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="3.3333333333333335s" repeatCount="indefinite" begin="-7.777777777777778s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="3.3333333333333335s"
+                            repeatCount="indefinite" begin="-2.2222222222222223s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(42.8431)">
+                        <circle cx="25" cy="0" r="7.94248" fill="#292664">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="2.5s" repeatCount="indefinite" begin="-6.666666666666667s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="2.5s"
+                            repeatCount="indefinite" begin="-3.3333333333333335s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(73.5538)">
+                        <circle cx="25" cy="0" r="5.90523" fill="#f5f4fa">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="2s" repeatCount="indefinite" begin="-5.555555555555555s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="2s"
+                            repeatCount="indefinite" begin="-4.444444444444445s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(184.265)">
+                        <circle cx="25" cy="0" r="5.08628" fill="#f2bed1">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="1.6666666666666667s" repeatCount="indefinite" begin="-4.444444444444445s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="1.6666666666666667s"
+                            repeatCount="indefinite" begin="-5.555555555555555s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(14.9754)">
+                        <circle cx="25" cy="0" r="6.40066" fill="#87434d">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="1.4285714285714286s" repeatCount="indefinite" begin="-3.3333333333333335s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="1.4285714285714286s"
+                            repeatCount="indefinite" begin="-6.666666666666667s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(285.686)">
+                        <circle cx="25" cy="0" r="6.95163" fill="#552b2f">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="1.25s" repeatCount="indefinite" begin="-2.2222222222222223s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="1.25s"
+                            repeatCount="indefinite" begin="-7.777777777777778s"></animateTransform>
+                    </g>
+                </g>
+                <g transform="translate(50 50)">
+                    <g transform="rotate(276.397)">
+                        <circle cx="25" cy="0" r="5.82942" fill="#b5ccf1">
+                            <animate attributeName="r" keyTimes="0;0.5;1" values="3.5999999999999996;8.399999999999999;3.5999999999999996"
+                                dur="1.1111111111111112s" repeatCount="indefinite" begin="-1.1111111111111112s"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" dur="1.1111111111111112s"
+                            repeatCount="indefinite" begin="-8.88888888888889s"></animateTransform>
+                    </g>
+                </g>
+            </g>
+        </svg>
     </div>
 
     <script src="assets/js/jquery-2.1.1.min.js" type="text/javascript"></script>

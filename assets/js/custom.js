@@ -736,8 +736,7 @@ function onSuccess(googleUser) {
 					});
 				}
 			}
-			$(".loadingPanel").velocity("transition.fadeIn", 500);
-			$(".g-signin2").velocity("transition.fadeOut", 500);
+			$(".loadingPanel").velocity("transition.fadeOut", 500);
 		},
 		error: function (data, xhr, status, error) {
 			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);

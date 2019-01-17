@@ -76,6 +76,9 @@
   font-style: italic;
   font-size: 0.9em;
 }
+div .eac-description  {
+  width: 100%!important;
+}
 
 .eac-icon-left .eac-item img {
   margin-right: 4px;

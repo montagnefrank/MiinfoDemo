@@ -1,13 +1,34 @@
 
 $(window).on("load", function () {
-	$("#loginPanel").delay(600).velocity("transition.slideUpBigIn", 1200);
+	var session = Cookies.get('login');
+	if (session == 'true') {
+		var user = JSON.parse(Cookies.get('userIntel'));
+		window.userIntel = user;
+		if (user.statusUsuario == 'new') {
+			$("#loginPanel").delay(600).velocity("transition.slideUpBigIn", 1200);
+		}
+		if (user.statusUsuario == 'valid') {
+			$(".appPanel").velocity("transition.slideRightBigOut", 500);
+			$("#completeAccPanel").delay(500).velocity("transition.slideUpIn", 600);
+		}
+		if (user.statusUsuario == 'complete') {
+			mountUser(user);
+			$(".appPanel").velocity("transition.slideRightBigOut", 500);
+			$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
+			$(".homeCard").delay(1200).velocity("transition.slideUpIn", 500);
+		}
+	} else {
+		$("#loginPanel").delay(600).velocity("transition.slideUpBigIn", 1200);
+		Cookies.remove('login')
+	}
 
 	//////////////////////////////////////////////////////ITERAR ENTRE LOS PANELS
 	$(document).on("click", "#regBtn, .regBtn", function () {
 		$(".appPanel").velocity("transition.slideDownOut", 500);
 		$("#regPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
 	});
-	$(document).on("click", "#loginBtn, .loginBtn, #logutBtn, .logutBtn", function () {
+	$(document).on("click", "#loginBtn, .loginBtn, .logutBtn, .cancelDetailsForm", function () {
+		Cookies.remove('login');
 		$(".appPanel").velocity("transition.slideDownOut", 500);
 		$("#loginPanel input").val('');
 		$("#loginPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
@@ -20,6 +41,13 @@ $(window).on("load", function () {
 		$(".appPanel").velocity("transition.slideDownOut", 500);
 		$("#resendPanel").delay(500).velocity("transition.slideUpBigIn", 1200);
 	});
+	$(document).on("click", ".showSearchModal", function () {
+		$(".searchPanel").velocity("transition.slideDownIn", 1200);
+		getCities();
+	});
+	$(document).on("click", ".closeSearchModal", function () {
+		$(".searchPanel").velocity("transition.slideUpOut", 1200);
+	});
 
 	///////////////////////////////////////////////////////////// ITERAMOS ENTRE LAS TARJETAS DEL MENU
 	$(document).on("click", ".showUnderCons", function () {
@@ -29,10 +57,16 @@ $(window).on("load", function () {
 	$(document).on("click", ".showHomeCards", function () {
 		$(".mainCards").velocity("transition.slideDownOut", 500);
 		$(".homeCard").delay(600).velocity("transition.slideUpIn", 500);
+		setTimeout(function () {
+			$('body').addClass('menuclose menuclose-right');
+		}, 1200);
 	});
 	$(document).on("click", ".showProfileCards", function () {
 		$(".mainCards").velocity("transition.slideDownOut", 500);
 		$(".profileCard").delay(600).velocity("transition.slideUpIn", 500);
+		setTimeout(function () {
+			$('body').addClass('menuclose menuclose-right');
+		}, 1200);
 	});
 	$(document).on("click", ".gobackSR", function () {
 		$(".mainCards").velocity("transition.slideDownOut", 500);
@@ -195,7 +229,7 @@ $(window).on("load", function () {
 	$("#avatarCompInput, #avatarInput").fileinput({
 		showUpload: false,
 		showCaption: false,
-		maxFileSize: 1000,
+		maxFileSize: 4000,
 		maxFileCount: 1,
 		browseClass: "btn btn-info"
 	});
@@ -210,13 +244,14 @@ $(window).on("load", function () {
 	});
 
 	///////////////////// GMAIL
-	signOut();
+	//signOut();
 
 	//////////////////////////////////////////// TRABAJAR CON LAS BUSQUEDAS
 	$(document).on("click", ".verPerfilBtn", function (e) {
 		self = $(this).parent().parent();
 		console.log(self);
 
+		$('.viewprofileCard').find('.SRmountUserId').attr('idusuario', $(self).find('.idUsuario').html());
 		$('.viewprofileCard').find('.SRmountUserAvatar').attr('src', $(self).find('.userImg').html());
 		$('.viewprofileCard').find('.SRmountUserAvatar').attr('alt', $(self).find('.nombresUsuario').html());
 		$('.viewprofileCard').find('.SRmountUserNames').html($(self).find('.nombresUsuario').html());
@@ -224,14 +259,107 @@ $(window).on("load", function () {
 		$('.viewprofileCard').find('.SRmountUserBio').html($(self).find('.bioUsuario').html());
 		$('.viewprofileCard').find('.SRmountUserPhone').html($(self).find('.telUsuario').html());
 		$('.viewprofileCard').find('.SRmountUserDir').html($(self).find('.dirUsuario').html());
-		$('.viewprofileCard').find('.SRmountUserFb').html($(self).find('.fbUsuario').html());
-		$('.viewprofileCard').find('.SRmountUserLink').html($(self).find('.linkUsuario').html());
-		$('.viewprofileCard').find('.SRmountUserIg').html($(self).find('.igUsuario').html());
-		$('.viewprofileCard').find('.SRmountUserTwit').html($(self).find('.twitterUsuario').html());
-		
+		$('.viewprofileCard').find('.SRmountUserCity').html($(self).find('.cityUsuario').html());
+		$('.viewprofileCard').find('.SRmountUserFollowers').html($(self).find('.totalFollowers').html());
+		$('.viewprofileCard').find('.SRmountUserFb').attr('onclick', 'window.open(\'https://' + $(self).find('.fbUsuario').html() + '\', \'_system\'); return false;');
+		$('.viewprofileCard').find('.SRmountUserLink').attr('onclick', 'window.open(\'https://' + $(self).find('.linkUsuario').html() + '\', \'_system\'); return false;');
+		$('.viewprofileCard').find('.SRmountUserIg').attr('onclick', 'window.open(\'https://' + $(self).find('.igUsuario').html() + '\', \'_system\'); return false;');
+		$('.viewprofileCard').find('.SRmountUserTwit').attr('onclick', 'window.open(\'https://' + $(self).find('.twitterUsuario').html() + '\', \'_system\'); return false;');
+		if ($(self).find('.tipoUsuario').html() == 'e') {
+			$('.SRIsEmp').append('<br /><br />');
+		} else {
+			$('.SRIsEmp').html('');
+		}
+
 		$(".mainCards").velocity("transition.slideDownOut", 500);
 		$(".viewprofileCard").delay(600).velocity("transition.slideUpIn", 500);
 	});
+
+	$(document).on("click", ".filterCity", function () {
+		var self = this;
+		$('#mainSearchCintyInput').val($(self).html());
+		$(self).parent().parent().find('a.titleOfDropDown').html($(self).html());
+	});
+
+	//////////////////////////////////////////////////////////////////// CARGAR SEGUIDORES
+	$(document).on("click", ".followBtn", function () {
+		var self = this,
+			idFollower,
+			idFollowed,
+			formData = new FormData();
+		idFollower = window.userIntel.idUsuario;
+		idFollowed = $(self).attr('idusuario');
+		
+		if (idFollower == idFollowed) {
+			notifyThem('danger', 'No puedes seguir tu propia cuenta', 'Estamos trabajando para que no veas este mensaje');
+			return;
+		}
+
+		if ($(self).html() == 'Eliminar') {
+			$(self).html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
+			formData.append('meth', 'deleteFollower');
+			formData.append('idFollower', idFollower);
+			formData.append('idFollowed', idFollowed);
+			$.ajax({
+				url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+				cache: false, contentType: false, processData: false, data: formData,
+				success: function (data) {
+					console.log('Ajax response success');
+					console.log(data);
+
+					if (data.scriptResp == 'failFollowing') {
+						notifyThem('danger', 'Hubo un Error', 'Contacte al Equipo de soporte');
+					}
+
+					if (data.scriptResp == 'deletedFollow') {
+						notifyThem('success', 'Has dejado de seguir a este usuario', 'El usuario NO será notificado de tu actividad');
+					}
+					Cookies.set('following', 'false');
+					$(self).html('Seguir');
+				},
+				error: function (data, xhr, status, error) {
+					console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+					console.log(data);
+					notifyThem('danger', 'Error de Internet');
+					$(self).html('Eliminar');
+				}
+			});
+			return;
+		}
+
+		$(self).html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
+		formData.append('meth', 'newFollower');
+		formData.append('idFollower', idFollower);
+		formData.append('idFollowed', idFollowed);
+		$.ajax({
+			url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+			cache: false, contentType: false, processData: false, data: formData,
+			success: function (data) {
+				console.log('Ajax response success');
+				console.log(data);
+
+				if (data.scriptResp == 'followedfail') {
+					notifyThem('danger', 'Hubo un Error', 'Contacte al Equipo de soporte');
+				}
+
+				if (data.scriptResp == 'followed') {
+					notifyThem('success', 'Ahora sigues a este usuario', 'El usuario será notificado de tu actividad');
+					Cookies.set('following', 'false');
+				}
+				$(self).html('Seguir');
+			},
+			error: function (data, xhr, status, error) {
+				console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+				console.log(data);
+				notifyThem('danger', 'Error de Internet');
+				$(self).html('Seguir');
+			}
+		});
+	});
+
+	setInterval(function () {
+		followBtnHandler();
+	}, 1000);
 });
 
 ////////////////////////////////////////////////////////////// EVENTO AL INICIAR SESION
@@ -258,7 +386,7 @@ function authUser() {
 		return false;
 	}
 
-	$(".loadingPanel").velocity("transition.fadeIn", 500);
+	$("#submitBtn").html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
 
 	var formData = new FormData();
 	formData.append('meth', 'login');
@@ -281,28 +409,41 @@ function authUser() {
 			}
 
 			if (data.scriptResp == 'match') {
+				if ($('#rememberMeSwitch').is(":checked")) {
+					Cookies.set('login', 'true');
+					Cookies.set('userIntel', data.userIntel);
+				}
 				window.userIntel = data.userIntel;
 				if (data.userIntel.statusUsuario == 'new') {
 					notifyThem('primary', 'Usted debe validar su cuenta para poder entrar, revise su email', '#RE#');
 				}
 				if (data.userIntel.statusUsuario == 'valid') {
+					$("#cityCompInput").easyAutocomplete(data.autocomp);
+					$(window).on("resize", function () {
+						$("#cityCompInput").easyAutocomplete(data.autocomp);
+					});
+					console.log(data.autocomp);
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$("#completeAccPanel").delay(500).velocity("transition.slideUpIn", 600);
 				}
 				if (data.userIntel.statusUsuario == 'complete') {
 					mountUser(data.userIntel);
+					$("#cityInput").easyAutocomplete(data.autocomp);
+					$(window).on("resize", function () {
+						$("#cityInput").easyAutocomplete(data.autocomp);
+					});
 					$(".appPanel").velocity("transition.slideRightBigOut", 500);
 					$(".dashComp").delay(500).velocity("transition.slideUpIn", 600);
 					$(".homeCard").delay(1200).velocity("transition.slideUpIn", 500);
 				}
 			}
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$("#submitBtn").html('Ingresar');
 		},
 		error: function (data, xhr, status, error) {
 			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
 			console.log(data);
 			notifyThem('danger', 'Error de Internet');
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$("#submitBtn").html('Ingresar');
 		}
 	});
 }
@@ -501,7 +642,6 @@ function notifyThem(alert, mensaje, aux) {
 	}
 
 	notifBody = notifBody +
-		'		<i class="bg-icon text-center fa ' + icon + '" class="notyIcon"></i>' +
 		'	</div>' +
 		'</div>';
 	$('#notifBox').html(notifBody);
@@ -515,6 +655,7 @@ function isEmail(email) {
 	return re.test(email);
 }
 
+////////////////////////////////////////////////////////////////////  VALIDAR SI EL STRING ES UNA URL
 function validURL(str) {
 	var regexp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 	if (!regexp.test(str)) {
@@ -530,6 +671,7 @@ function completeUser() {
 		emailUsuario = window.userIntel.emailUsuario,
 		tipoUsuario = $('#persEmpresa').find("option:selected").attr('value'),
 		dirUsuario = $('#dirCompInput').val(),
+		cityUsuario = $('#cityCompInput').val(),
 		twitterUsuario = $('#twitterCompInput').val(),
 		linkUsuario = $('#linkCompInput').val(),
 		fbUsuario = $('#fbCompInput').val(),
@@ -541,23 +683,29 @@ function completeUser() {
 		var dniUsuario = $('#dniPersInput').val(),
 			nombresUsuario = $('#namesPersInput').val(),
 			apellidosUsuario = $('#lnamesPersInput').val(),
-			telUsuario = $('#phonePersInput').val();
+			telUsuario = $('#phonePersInput').val(),
+			visiUsuario = $('#visiPers').val();
 	}
 	if (tipoUsuario == 'e') {
 		var dniUsuario = $('#dniEmpInput').val(),
 			nombresUsuario = $('#namesEmpInput').val(),
 			apellidosUsuario = $('#lnamesEmpInput').val(),
-			telUsuario = $('#phoneEmpInput').val();
+			telUsuario = $('#phoneEmpInput').val(),
+			visiUsuario = $('#visiEmp').val();
+	}
+	if (visiUsuario == '0') {
+		visiUsuario = '';
 	}
 	if (tipoUsuario == '0') {
 		tipoUsuario = '';
 	}
-	if (tipoUsuario == '' || dniUsuario == '' || nombresUsuario == '' || apellidosUsuario == '' || telUsuario == '') {
+	if (tipoUsuario == '' || dniUsuario == '' || nombresUsuario == '' || apellidosUsuario == '' || telUsuario == '' || visiUsuario == '' || cityUsuario == '') {
 		tipoUsuario == '' ? $("#persEmpresa").velocity("callout.shake") :
-			dniUsuario == '' ? $("#dniPersInput, #dniEmpInput").velocity("callout.shake") :
-				nombresUsuario == '' ? $("#namesPersInput, #namesEmpInput").velocity("callout.shake") :
-					apellidosUsuario == '' ? $("#lnamesPersInput, #lnamesEmpInput").velocity("callout.shake") :
-						$("#phonePersInput, #phoneEmpInput").velocity("callout.shake");
+			nombresUsuario == '' ? $("#namesPersInput, #namesEmpInput").velocity("callout.shake") :
+				apellidosUsuario == '' ? $("#lnamesPersInput, #lnamesEmpInput").velocity("callout.shake") :
+					dniUsuario == '' ? $("#dniPersInput, #dniEmpInput").velocity("callout.shake") :
+						visiUsuario == '' ? $("#visiPers, #visiEmp").velocity("callout.shake") :
+							$("#phonePersInput, #phoneEmpInput").velocity("callout.shake");
 		notifyThem('warning', 'Debes llenar todos los campos');
 		return false;
 	}
@@ -588,10 +736,6 @@ function completeUser() {
 			notifyThem('danger', 'El archivo no es una imagen');
 			return false;
 		}
-	} else {
-		$("#avatarImgForm").velocity("callout.shake");
-		notifyThem('danger', 'Debe cargar una imagen de perfil');
-		return false;
 	}
 
 	// LOADING IMPORTANT
@@ -606,13 +750,15 @@ function completeUser() {
 	formData.append('nombresUsuario', nombresUsuario);
 	formData.append('apellidosUsuario', apellidosUsuario);
 	formData.append('telUsuario', telUsuario);
+	formData.append('cityUsuario', cityUsuario);
+	formData.append('visiUsuario', visiUsuario);
 	dirUsuario.length > 0 ? formData.append('dirUsuario', dirUsuario) : formData.append('dirUsuario', '');
 	twitterUsuario.length > 0 ? formData.append('twitterUsuario', twitterUsuario) : formData.append('twitterUsuario', '');
 	linkUsuario.length > 0 ? formData.append('linkUsuario', linkUsuario) : formData.append('linkUsuario', '');
 	fbUsuario.length > 0 ? formData.append('fbUsuario', fbUsuario) : formData.append('fbUsuario', '');
 	igUsuario.length > 0 ? formData.append('igUsuario', igUsuario) : formData.append('igUsuario', '');
 	bioUsuario.length > 0 ? formData.append('bioUsuario', bioUsuario) : formData.append('bioUsuario', '');
-	$('#avatarCompInput')[0].files.length > 0 ? formData.append('avatarUsuario', $('#avatarCompInput')[0].files[0]) : formData.append('avatarUsuario', '');
+	$('#avatarCompInput')[0].files.length > 0 ? formData.append('avatarUsuario', avatarUsuario) : formData.append('avatarUsuario', '');
 	$.ajax({
 		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
@@ -633,6 +779,7 @@ function completeUser() {
 			}
 			if (data.scriptResp == 'userAlreadyCompleted') {
 				notifyThem('primary', 'Este Usuario ya ha sido completado previamente', 'Inicie sesi&oacute;n nuevamente para acceder a su tablero');
+				Cookies.remove('login');
 				setTimeout(function (e) {
 					$('#loginPanel input, #forgotPassPanel input,#regPanel input').val('');
 					$("#completeAccPanel").velocity("transition.slideDownOut", 500);
@@ -658,6 +805,11 @@ function completeUser() {
 
 function mountUser(userParams) {
 	console.log(userParams);
+	if (userParams.tipoUsuario == 'e') {
+		$('.ProfIsEmp').append('<br /><br />');
+	} else {
+		$('.ProfIsEmp').html('');
+	}
 	$('.mountUserAvatar').attr('src', userParams.userImg);
 	$('.mountUserAvatar').attr('alt', userParams.nombresUsuario);
 	$('.mountUserNames').html(userParams.nombresUsuario);
@@ -666,10 +818,11 @@ function mountUser(userParams) {
 	$('.mountUserBio').html(userParams.bioUsuario);
 	$('.mountUserPhone').html(userParams.telUsuario);
 	$('.mountUserDir').html(userParams.dirUsuario);
-	$('.mountUserTwit').html(userParams.twitterUsuario);
-	$('.mountUserLink').html(userParams.linkUsuario);
-	$('.mountUserFb').html(userParams.fbUsuario);
-	$('.mountUserIg').html(userParams.igUsuario);
+	$('.mountUserTwitLink').attr('onclick', 'window.open(\'https://' + userParams.twitterUsuario + '\', \'_system\'); return false;');
+	$('.mountUserLinkLink').attr('onclick', 'window.open(\'https://' + userParams.linkUsuario + '\', \'_system\'); return false;');
+	$('.mountUserFbLink').attr('onclick', 'window.open(\'https://' + userParams.fbUsuario + '\', \'_system\'); return false;');
+	$('.mountUserIgLink').attr('onclick', 'window.open(\'https://' + userParams.igUsuario + '\', \'_system\'); return false;');
+	$('.mountUserCity').html(userParams.cityUsuario);
 	$('.mountUserNamesInp').val(userParams.nombresUsuario);
 	$('.mountUserNamesAltImp').val(userParams.apellidosUsuario);
 	$('.mountUserPhoneImp').val(userParams.telUsuario);
@@ -680,6 +833,7 @@ function mountUser(userParams) {
 	$('.mountUserIgImp').val(userParams.igUsuario);
 	$('.mountUserBioImp').val(userParams.bioUsuario);
 	$('.mountUserDniInp').val(userParams.dniUsuario);
+	$('.mountUserCityImp').val(userParams.cityUsuario);
 }
 
 ////////////////////////////////////////////////////////////// REENVIAR EMAIL DE VALIDACION
@@ -801,7 +955,7 @@ function onSuccess(googleUser) {
 
 function onFailure(googleUser) {
 	$(".g-signin2").velocity("callout.shake");
-	notifyThem('danger', 'No pudimos comprobar tu Google');
+	notifyThem('danger', 'No pudimos comprobar tu cuenta de Google');
 	return false;
 }
 
@@ -826,13 +980,16 @@ function updateUser() {
 		dniUsuario = $('#dniInput').val(),
 		nombresUsuario = $('#namesInput').val(),
 		apellidosUsuario = $('#lnamesInput').val(),
-		telUsuario = $('#phoneInput').val();
+		telUsuario = $('#phoneInput').val(),
+		cityUsuario = $('#cityInput').val(),
+		visiUsuario = $('#visiInput').val();
 
-	if (dniUsuario == '' || nombresUsuario == '' || apellidosUsuario == '' || telUsuario == '') {
+	if (dniUsuario == '' || nombresUsuario == '' || apellidosUsuario == '' || telUsuario == '' || cityUsuario == '') {
 		dniUsuario == '' ? $("#dniInput").velocity("callout.shake") :
 			nombresUsuario == '' ? $("#namesInput").velocity("callout.shake") :
 				apellidosUsuario == '' ? $("#lnamesInput").velocity("callout.shake") :
-					$("#phoneInput").velocity("callout.shake");
+					cityUsuario == '' ? $("#cityInput").velocity("callout.shake") :
+						$("#phoneInput").velocity("callout.shake");
 		notifyThem('warning', 'Debes llenar todos los campos');
 		return false;
 	}
@@ -865,7 +1022,7 @@ function updateUser() {
 		}
 	}
 
-	$(".loadingPanel").velocity("transition.fadeIn", 500);
+	$(".submitUpdateForm").html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
 
 	var formData = new FormData();
 	formData.append('meth', 'updateUser');
@@ -875,13 +1032,15 @@ function updateUser() {
 	formData.append('nombresUsuario', nombresUsuario);
 	formData.append('apellidosUsuario', apellidosUsuario);
 	formData.append('telUsuario', telUsuario);
+	formData.append('cityUsuario', cityUsuario);
+	formData.append('visiUsuario', visiUsuario);
 	dirUsuario.length > 0 ? formData.append('dirUsuario', dirUsuario) : formData.append('dirUsuario', '');
 	twitterUsuario.length > 0 ? formData.append('twitterUsuario', twitterUsuario) : formData.append('twitterUsuario', '');
 	linkUsuario.length > 0 ? formData.append('linkUsuario', linkUsuario) : formData.append('linkUsuario', '');
 	fbUsuario.length > 0 ? formData.append('fbUsuario', fbUsuario) : formData.append('fbUsuario', '');
 	igUsuario.length > 0 ? formData.append('igUsuario', igUsuario) : formData.append('igUsuario', '');
 	bioUsuario.length > 0 ? formData.append('bioUsuario', bioUsuario) : formData.append('bioUsuario', '');
-	$('#avatarCompInput')[0].files.length > 0 ? formData.append('avatarUsuario', $('#avatarCompInput')[0].files[0]) : formData.append('avatarUsuario', '');
+	$('#avatarInput')[0].files.length > 0 ? formData.append('avatarUsuario', $('#avatarInput')[0].files[0]) : formData.append('avatarUsuario', '');
 	$.ajax({
 		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
@@ -901,24 +1060,25 @@ function updateUser() {
 			if (data.scriptResp == 'imageNotUploaded') {
 				notifyThem('danger', 'La imagen no se puede subir, intente una distinta');
 			}
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$(".submitUpdateForm").html('Enviar');
 		},
 		error: function (data, xhr, status, error) {
 			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
 			console.log(data);
 			notifyThem('danger', 'Error de Internet');
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$(".submitUpdateForm").html('Enviar');
 		}
 	});
 }
 
 ////////////////////////////////////////////////////////////// BUSCAMOS USUARIOS EN LA DB
 function searchUsers() {
-	var term = $('#mainSearchInput').val();
+	var term = $('#mainSearchInput').val(),
+		city = $('#mainSearchCintyInput').val();
 
 	if (term == '') {
 		$("#mainSearchInput").velocity("callout.shake");
-		notifyThem('warning', 'Debes ingresar un valor para buscar');
+		notifyThem('warning', 'Debes ingresar un valor para buscar, no olvides seleccionar la ciudad');
 		return false;
 	}
 
@@ -927,12 +1087,14 @@ function searchUsers() {
 		notifyThem('warning', 'Debes ingresar mas caracteres');
 		return false;
 	}
+	$("#profsearchBtn").html('<img src="assets/img/loadingbar.gif" style="height: 20px;" />');
 
-	$(".loadingPanel").velocity("transition.fadeIn", 500);
 	$('#mainSearchInput').val('');
+	$('#mainSearchCintyInput').val('');
 	var formData = new FormData();
 	formData.append('meth', 'searchUsers');
 	formData.append('term', term);
+	formData.append('city', city);
 	$.ajax({
 		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
 		cache: false, contentType: false, processData: false, data: formData,
@@ -941,7 +1103,7 @@ function searchUsers() {
 			console.log(data);
 
 			if (data.scriptResp == 'userqueryFail') {
-				notifyThem('danger', 'No pudimos validar su usuario, intente de nuevo');
+				notifyThem('danger', 'No pudimos consultar los usuarios, intente de nuevo');
 				$('#newusername_input,#newpassword_input').val('');
 			}
 
@@ -953,20 +1115,24 @@ function searchUsers() {
 				console.log(data);
 				var html = '';
 				$.each(data.results, function (key, value) {
+					if (value.tipoUsuario == 'e') {
+						var names = '<h2 class="mt-0 mb-1 dyenavyblue">' + value.nombresUsuario + ' <br /> ' + value.apellidosUsuario + '</h2>';
+					} else {
+						var names = '<h2 class="mt-0 mb-1 dyenavyblue">' + value.nombresUsuario + ' ' + value.apellidosUsuario + '</h2>';
+					}
 					html += ' <div class="col-lg-4 col-sm-8 col-xs-16 "> ' +
 						'	<div class="media flex-column ">' +
-						'		<figure class="background"><img class="d-flex mr-3" src="' + value.userImg + '" alt="Generic user image"></figure>' +
 						'		<span class="message_userpic large"><img class="d-flex mr-3" src="' + value.userImg + '"' +
 						'				alt="Generic user image"> <span class="user-status bg-success "></span></span>' +
 						'		<div class="media-body">' +
-						'			<h6 class="mt-0 mb-1">' + value.nombresUsuario + '</h6>' +
-						'			' + value.apellidosUsuario + '<br>' +
+						'			' + names +
 						'			<br>' +
-						'			<button class="btn btn-outline-primary btn-round SRbtn">+ Seguir</button>' +
-						'			<button class="btn btn-outline-success btn-round ml-2 SRbtn verPerfilBtn">Ver Perfil</button>' +
+						'			<button class="btn btn-succes text-white followBtn" idusuario="' + value.idUsuario + '">Seguir</button>' +
+						'			<button class="btn btn-succes ml-2 SRbtn verPerfilBtn text-white">Ver Perfil</button>' +
 						'		</div>' +
 						'		<div class="hidethisForce">' +
 						'			<div class="apellidosUsuario">' + value.apellidosUsuario + '</div>' +
+						'			<div class="idUsuario">' + value.idUsuario + '</div>' +
 						'			<div class="bioUsuario">' + value.bioUsuario + '</div>' +
 						'			<div class="dirUsuario">' + value.dirUsuario + '</div>' +
 						'			<div class="emailUsuario">' + value.emailUsuario + '</div>' +
@@ -975,33 +1141,135 @@ function searchUsers() {
 						'			<div class="linkUsuario">' + value.linkUsuario + '</div>' +
 						'			<div class="nombresUsuario">' + value.nombresUsuario + '</div>' +
 						'			<div class="telUsuario">' + value.telUsuario + '</div>' +
+						'			<div class="cityUsuario">' + value.cityUsuario + '</div>' +
 						'			<div class="twitterUsuario">' + value.twitterUsuario + '</div>' +
+						'			<div class="tipoUsuario">' + value.tipoUsuario + '</div>' +
 						'			<div class="userImg">' + value.userImg + '</div>' +
+						'			<div class="totalFollowers">' + value.totalFollowers + '</div>' +
 						'		</div>' +
 						'	</div>' +
 						'</div>';
 				});
 				$('#SRContainer').html('');
 				$('#SRContainer').append(html);
+				if (city == '') {
+					$('.locationSR').html('Todas');
+				} else {
+					$('.locationSR').html(city);
+				}
 
 				$(".mainCards").velocity("transition.slideDownOut", 500);
 				$(".SRCard").delay(600).velocity("transition.slideUpIn", 500);
+
+				$(".searchPanel").velocity("transition.slideUpOut", 1200);
 			}
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$("#profsearchBtn").html('Aplicar');
 		},
 		error: function (data, xhr, status, error) {
 			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
 			console.log(data);
 			notifyThem('danger', 'Error de Internet');
-			$(".loadingPanel").velocity("transition.fadeOut", 500);
+			$("#profsearchBtn").html('Aplicar');
 		}
 	});
+}
+
+function getCities() {
+	var formData = new FormData();
+	formData.append('meth', 'getCities');
+	$.ajax({
+		url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+		cache: false, contentType: false, processData: false, data: formData,
+		success: function (data) {
+			console.log('Ajax response success');
+			console.log(data);
+
+			if (data.scriptResp == 'queryFailedd') {
+				notifyThem('danger', 'No pudimos validar su usuario, intente de nuevo');
+				$('#newusername_input,#newpassword_input').val('');
+			}
+
+			if (data.scriptResp == 'listed') {
+				var htmlCities = '';
+				$.each(data.autocomp, function (key, value) {
+					htmlCities += '<a class="dropdown-item filterCity" href="#">' + value + '</a>';
+				});
+				$('.llenarLugares').html(htmlCities)
+			}
+
+		},
+		error: function (data, xhr, status, error) {
+			console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+			console.log(data);
+			notifyThem('danger', 'No pudimos actualizar las ciudades');
+		}
+	});
+}
+
+function followBtnHandler() {
+	var followingList = Cookies.get('following'),
+		formData = new FormData(), idUsuario;
+
+	if (window.userIntel) {
+		idUsuario = window.userIntel.idUsuario;
+	} else {
+		Cookies.set('following', 'false');
+		return;
+	}
+
+	if (followingList == 'true') {
+		$.each($('body .followBtn'), function (key, value) {
+			var userFollowed = $(value).attr('idusuario'),
+				followingList = Cookies.get('followingList');
+			if (userFollowed == window.userIntel.idUsuario) {
+				$(value).remove();
+				console.log(value);
+				console.log(window.userIntel.idUsuario);
+			}
+			if (followingList.includes(userFollowed)) {
+				if ($(value).html() == 'Seguir') {
+					$(value).html('Eliminar');
+				}
+				$(value).removeClass(' btn-success ').addClass('btn-danger');
+			} else {
+				$(value).html('Seguir');
+				$(value).removeClass(' btn-danger ').addClass('btn-success');
+			}
+		});
+
+		$('.totalFollowers').html(Cookies.get('totalFans'));
+	} else {
+		formData.append('meth', 'getFollowingList');
+		formData.append('idUsuario', window.userIntel.idUsuario);
+		$.ajax({
+			url: "http://api.miinfo.burtoncloud.com/api.php", type: 'POST', dataType: "json",
+			cache: false, contentType: false, processData: false, data: formData,
+			success: function (data) {
+				console.log('Ajax response success');
+				console.log(data);
+
+				if (data.scriptResp == 'queryFailedd') {
+					notifyThem('danger', 'Hubo un Error', 'Contacte al Equipo de soporte');
+				}
+				if (data.scriptResp == 'followListLoaded') {
+					Cookies.set('followingList', data.followList);
+					Cookies.set('totalFans', data.totalFans);
+				}
+				Cookies.set('following', 'true');
+			},
+			error: function (data, xhr, status, error) {
+				console.log("Ajax Error Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+				console.log(data);
+				notifyThem('danger', 'Error de Internet');
+				Cookies.set('following', 'false');
+			}
+		});
+	}
 }
 
 ////////////////////////////////
 ///////		DEBUG	  //////////
 ////////////////////////////////
-$(document).on("click", "#debugApp2", function () {
-	$(".mainCards").velocity("transition.slideDownOut", 500);
-	$(".SRCard").delay(600).velocity("transition.slideUpIn", 500);
+$(document).on("click", "#debugApp", function () {
+	followBtnHandler();
 });
